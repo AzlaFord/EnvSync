@@ -53,6 +53,11 @@ export async function signInWithGitHub() {
   })
 
   if (data.url) {
-    redirect(data.url) // use the redirect API for your server framework
+    redirect(data.url) 
   }
+}
+export async function sighOut() {
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signOut()
+  redirect('/login')
 }

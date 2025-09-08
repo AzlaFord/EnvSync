@@ -1,5 +1,5 @@
 "use client"
-
+import { sighOut } from "@/lib/auth-actions"
 import {
   BadgeCheck,
   Bell,
@@ -83,7 +83,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={sighOut} >
               <LogOut />
               Log out
             </DropdownMenuItem>
