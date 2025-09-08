@@ -1,15 +1,14 @@
-import { Children } from 'react'
+'use client'
 import './styles/globals.css'
-
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
 export default function Layout({ children }) {
+  const [queryClient] = useState(() => new QueryClient());
   return (
-    <>
-    <html>
-        <body>
-            {children}
-        </body>
-    </html>
-    </>
-  )
+    <QueryClientProvider client={queryClient}>
+      <html>
+        <body>{children}</body>
+      </html>
+    </QueryClientProvider>
+  );
 }
