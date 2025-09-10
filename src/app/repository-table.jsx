@@ -75,7 +75,6 @@ export function RepositoryTable({ onRepositoryClick }) {
         <CardTitle className="flex items-center gap-2">
           <GitBranch className="h-5 w-5" />
           Repositories
-          <Input type='text' placeholder='Repo name' className="h-8 ml-[70%] flex justify-end "></Input>
         </CardTitle>
         <CardDescription>Manage and explore your repositories</CardDescription>
       </CardHeader>
