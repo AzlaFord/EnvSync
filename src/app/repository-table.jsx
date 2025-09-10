@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { GitBranch, Star, GitFork, Clock } from "lucide-react"
+import { Input } from "@/components/ui/input"
 
 const repositories = [
   {
@@ -52,64 +53,7 @@ const repositories = [
     lastUpdated: "2 weeks ago",
     status: "Archived",
   },
-  {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-  {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-  {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-    {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-    {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-    {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-  
 ]
-
-
 
 export function RepositoryTable({ onRepositoryClick }) {
   const getStatusColor = (status) => {
@@ -131,6 +75,7 @@ export function RepositoryTable({ onRepositoryClick }) {
         <CardTitle className="flex items-center gap-2">
           <GitBranch className="h-5 w-5" />
           Repositories
+          <Input type='text' placeholder='Repo name' className="h-8 ml-[70%] flex justify-end "></Input>
         </CardTitle>
         <CardDescription>Manage and explore your repositories</CardDescription>
       </CardHeader>
