@@ -36,9 +36,8 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const user = userData?.session?.user
   const avatar = user?.user_metadata?.avatar_url
-  const name = user?.identities?.[0]?.identity_data?.user_name;
+  const name = user?.identities?.[0]?.identity_data?.user_name
   const email = user?.email
-  console.log(userData)
   return (
     <SidebarMenu>
       <SidebarMenuItem>
