@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from "react"
-
+import { RepositoryTable } from "./repository-table"
+import { RepositoryDetails } from "./repository-details"
 
 export default function Dashboard() {
   const [selectedRepo, setSelectedRepo] = useState(null)
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <div className="min-h-screen bg-background">
         <div className="container mx-auto py-8">
           {selectedRepo ? (
@@ -17,6 +17,5 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-    </ThemeProvider>
   )
 }
