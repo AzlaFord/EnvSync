@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signInWithGitHub } from "@/lib/auth-actions"
 export function LoginForm({
-
   className,
   ...props
 }) 

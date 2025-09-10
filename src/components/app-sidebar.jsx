@@ -74,7 +74,6 @@ const data2 = {
   
   ],
 }
-
 export function AppSidebar({
   ...props
 }) {

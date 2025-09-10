@@ -5,7 +5,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { GitBranch, Star, GitFork, Clock } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { useQuery } from "@tanstack/react-query"
+
+const getRepos = async () => {
+  const res = await fetch("/api/repo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user: "BIVOL" }),
+  })
+  const data = await res.json()
+  console.log(data)
+  return data
+}
 
 const repositories = [
   {
@@ -55,7 +66,18 @@ const repositories = [
   },
 ]
 
+const getDataUser = async () =>{
+  const supabase = createClient()
+  const { data, error } = await supabase.auth.getSession()
+  return data
+}
+
 export function RepositoryTable({ onRepositoryClick }) {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['user'],
+    queryFn: getDataUser,
+  })
+
   const getStatusColor = (status) => {
     switch (status) {
       case "Active":
