@@ -23,7 +23,6 @@ import {
 } from "lucide-react"
 
 function timeAgo(dateString) {
-
   const updatedAt = new Date(dateString)
   const diff = Date.now() - updatedAt.getTime()
   const seconds = Math.floor(diff / 1000)
@@ -40,6 +39,16 @@ function timeAgo(dateString) {
   if (months < 12)  return `${months} months ago`
   return `${years} years ago`
 }
+export const getCommitsData = async (fullName) =>{
+  const result = await fetch("api/repoCommits",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({fullName:fullName})
+  })
+  const data = await result.json()
+  return data
+}
+
 
 export const getRepoData = async (userName,repo) =>{
   const result = await fetch("api/repoData",{
@@ -53,8 +62,8 @@ export const getRepoData = async (userName,repo) =>{
 
 export function RepositoryDetails({ repositoryName, onBack }) {
   const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
-        queryKey: ['user'],
-        queryFn: getDataUser,
+    queryKey: ['user'],
+    queryFn: getDataUser,
   })
   
   const name = user?.session?.user?.identities[0]?.identity_data?.user_name
@@ -64,7 +73,14 @@ export function RepositoryDetails({ repositoryName, onBack }) {
     queryFn: () => getRepoData(name,repositoryName),
     enabled: !!name, 
   })
+  const {data:commit} = useQuery({
+    queryKey:["commits",repositoryName],
+    queryFn:() => getCommitsData(repo.data?.full_name),
+    enabled: !!repositoryName,
+  })
+  console.log("fullname",)
 
+  console.log(repo.data)
 
   return (
     <div className="space-y-6">
@@ -147,7 +163,7 @@ export function RepositoryDetails({ repositoryName, onBack }) {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Commits:</span>
-                  <span className="font-semibold">{repo.commits}</span>
+                  <span className="font-semibold">{commit.commits?.length}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Contributors:</span>
@@ -183,19 +199,21 @@ export function RepositoryDetails({ repositoryName, onBack }) {
           <div className="flex flex-wrap gap-3">
             <Button>
               <Code className="h-4 w-4 mr-2" />
-              View Code
+              View Env
             </Button>
             <Button variant="outline">
               <AlertCircle className="h-4 w-4 mr-2" />
               Issues ({repo.openIssues})
             </Button>
             <Button variant="outline">
-              <GitBranch className="h-4 w-4 mr-2" />
-              Pull Requests ({repo.pullRequests})
-            </Button>
-            <Button variant="outline">
               <User className="h-4 w-4 mr-2" />
               Contributors ({repo.contributors})
+            </Button>
+            <Button variant="outline"  >
+              <GitBranch className="h-4 w-4 mr-2" />
+              <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer">
+                Repository
+              </a>
             </Button>
           </div>
         </CardContent>
