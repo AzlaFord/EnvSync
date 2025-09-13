@@ -8,7 +8,7 @@ import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 
-const getRepos = async (nume) => {
+export const getRepos = async (nume) => {
   const res = await fetch("/api/repo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,7 +19,7 @@ const getRepos = async (nume) => {
 }
 
 
-const getDataUser = async () =>{
+export const getDataUser = async () =>{
   const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
   return data
@@ -36,7 +36,6 @@ export function RepositoryTable({ onRepositoryClick }) {
         queryFn: () => getRepos(name),
         enabled: !!name, 
     })
-    console.log("salut",repos)
 
     const getStatusColor = (status) => {
         switch (status) {

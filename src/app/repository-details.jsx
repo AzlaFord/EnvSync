@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { useQuery } from "@tanstack/react-query"
+
+import { getDataUser,getRepos } from "./repository-table"
+
 import {
   ArrowLeft,
   GitBranch,
@@ -18,88 +22,33 @@ import {
   AlertCircle,
 } from "lucide-react"
 
-// Mock detailed repository data
 const getRepositoryDetails = (name) => {
-  const baseData = {
-    name,
-    fullName: `username/${name}`,
-    description: "A comprehensive repository with detailed information and statistics",
-    language: "TypeScript",
-    stars: 1247,
-    forks: 89,
-    watchers: 156,
-    size: "2.4 MB",
-    createdAt: "March 15, 2023",
-    updatedAt: "2 hours ago",
-    license: "MIT",
-    topics: ["react", "typescript", "tailwindcss", "nextjs"],
-    defaultBranch: "main",
-    openIssues: 12,
-    pullRequests: 3,
-    contributors: 8,
-    commits: 342,
-    releases: 5,
-  }
 
-  // Customize based on repository name
-  switch (name) {
-    case "node-api-server":
-      return {
-        ...baseData,
-        description: "RESTful API server built with Node.js and Express with comprehensive documentation",
-        language: "JavaScript",
-        topics: ["nodejs", "express", "api", "rest"],
-        stars: 892,
-        forks: 156,
-      }
-    case "python-data-analysis":
-      return {
-        ...baseData,
-        description: "Data analysis toolkit using pandas and matplotlib for scientific computing",
-        language: "Python",
-        topics: ["python", "pandas", "matplotlib", "data-science"],
-        stars: 634,
-        forks: 78,
-      }
-    case "vue-dashboard":
-      return {
-        ...baseData,
-        description: "Modern admin dashboard built with Vue.js 3 and Composition API",
-        language: "Vue",
-        topics: ["vue", "dashboard", "admin", "composition-api"],
-        stars: 445,
-        forks: 34,
-      }
-    case "rust-cli-tool":
-      return {
-        ...baseData,
-        description: "High-performance command-line utility written in Rust for file processing",
-        language: "Rust",
-        topics: ["rust", "cli", "performance", "file-processing"],
-        stars: 289,
-        forks: 23,
-      }
-    default:
-      return baseData
-  }
+  return baseData
+  
 }
-
-
 
 export function RepositoryDetails({ repositoryName, onBack }) {
   const repo = getRepositoryDetails(repositoryName)
-
+  const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
+        queryKey: ['user'],
+        queryFn: getDataUser,
+    })
+  const name = user?.session?.user?.identities[0]?.identity_data?.user_name
+  
+  const { data: repos } = useQuery({
+        queryKey: ['repos', name],
+        queryFn: () => getRepos(name),
+        enabled: !!name, 
+  })
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="outline" size="sm" onClick={onBack}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
       </div>
-
-      {/* Repository Info */}
       <Card>
         <CardHeader>
           <div className="flex items-start justify-between">
@@ -228,4 +177,4 @@ export function RepositoryDetails({ repositoryName, onBack }) {
       </Card>
     </div>
   )
-}
+  }
