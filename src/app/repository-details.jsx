@@ -22,6 +22,25 @@ import {
   AlertCircle,
 } from "lucide-react"
 
+function timeAgo(dateString) {
+
+  const updatedAt = new Date(dateString)
+  const diff = Date.now() - updatedAt.getTime()
+  const seconds = Math.floor(diff / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours   = Math.floor(minutes / 60)
+  const days    = Math.floor(hours / 24)
+  const months  = Math.floor(days / 30)
+  const years   = Math.floor(days / 365)
+
+  if (seconds < 60) return `${seconds} seconds ago`
+  if (minutes < 60) return `${minutes} minutes ago`
+  if (hours < 24)   return `${hours} hours ago`
+  if (days < 30)    return `${days} days ago`
+  if (months < 12)  return `${months} months ago`
+  return `${years} years ago`
+}
+
 export const getRepoData = async (userName,repo) =>{
   const result = await fetch("api/repoData",{
     method:"POST",
@@ -32,20 +51,21 @@ export const getRepoData = async (userName,repo) =>{
   return data
 }
 
-
 export function RepositoryDetails({ repositoryName, onBack }) {
   const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
         queryKey: ['user'],
         queryFn: getDataUser,
-    })
+  })
+  
   const name = user?.session?.user?.identities[0]?.identity_data?.user_name
   
   const { data: repo } = useQuery({
-        queryKey: ['repos', name],
-        queryFn: () => getRepoData(name,repositoryName),
-        enabled: !!name, 
+    queryKey: ['repos', name],
+    queryFn: () => getRepoData(name,repositoryName),
+    enabled: !!name, 
   })
-  console.log(repo)
+
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -96,7 +116,7 @@ export function RepositoryDetails({ repositoryName, onBack }) {
             </div>
             <div className="flex items-center gap-2">
               <Download className="h-4 w-4" />
-              <span className="font-semibold">{repo.data?.size / 1024}MB</span>
+              <span className="font-semibold">{repo.data ?(repo.data?.size / 1024).toFixed(2):"0.00"}MB</span>
               <span className="text-muted-foreground text-sm">size</span>
             </div>
           </div>
@@ -111,11 +131,11 @@ export function RepositoryDetails({ repositoryName, onBack }) {
               </h3>
               <div className="space-y-2 text-sm">
                 <div>Created: {repo.data?.created_at.slice(0, 10)}</div>
-                <div>Last updated: {repo.data?.updatedAt}</div>
+                <div>Last updated: {timeAgo(repo.data?.updated_at)}</div>
                 <div>
                   Default branch: <Badge variant="outline">{repo.data?.default_branch}</Badge>
                 </div>
-                <div>License: {repo.data?.license}</div>
+                <div>License: {repo.data?.license?repo.data?.license:"No license"}</div>
               </div>
             </div>
 

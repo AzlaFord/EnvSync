@@ -37,6 +37,7 @@ export function RepositoryTable({ onRepositoryClick }) {
         queryFn: () => getRepos(name),
         enabled: !!name, 
         refetchOnMount: 'always',
+        keepPreviousData: true,
     })
     const getStatusColor = (status) => {
         switch (status) {
@@ -50,6 +51,7 @@ export function RepositoryTable({ onRepositoryClick }) {
     }
 
     return (
+        <>
         <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -83,7 +85,7 @@ export function RepositoryTable({ onRepositoryClick }) {
                         >
                         {repo.name}
                         </Button>
-                        <p className="text-sm text-muted-foreground mt-1">{repo.description}</p>
+                        <p className="text-sm text-muted-foreground mt-1">{repo.description?repo.description:"There is no description"}</p>
                     </div>
                     </TableCell>
                     <TableCell>
@@ -121,5 +123,10 @@ export function RepositoryTable({ onRepositoryClick }) {
             </Table>
         </CardContent>
         </Card>
+        <div className="flex justify-end w-full">
+            <Button variant="secondary" disabled={false}  className="ml-2 w-20">Prev</Button>
+            <Button variant="secondary" disabled={false}  className="ml-2 w-20">Next</Button>
+        </div>
+    </>            
     )
 }
