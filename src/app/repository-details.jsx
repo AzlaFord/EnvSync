@@ -74,11 +74,11 @@ export function RepositoryDetails({ repositoryName, onBack }) {
     enabled: !!name, 
   })
   const {data:commit} = useQuery({
-    queryKey:["commits",repositoryName],
+    queryKey:["commits",repo?.data?.full_name],
     queryFn:() => getCommitsData(repo.data?.full_name),
-    enabled: !!repositoryName,
+    enabled: !!repo?.data?.full_name,
   })
-  console.log("fullname",)
+  console.log("length",commit?.commits?.length)
 
   console.log(repo.data)
 
@@ -163,23 +163,23 @@ export function RepositoryDetails({ repositoryName, onBack }) {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Commits:</span>
-                  <span className="font-semibold">{commit.commits?.length}</span>
+                  <span className="font-semibold">{commit?.commits?.length?commit?.commits?.length:"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Contributors:</span>
-                  <span className="font-semibold">{repo.contributors}</span>
+                  <span className="font-semibold">{repo.contributors?repo.contributors:"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Releases:</span>
-                  <span className="font-semibold">{repo.releases}</span>
+                  <span className="font-semibold">{repo.releases?repo.releases:"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Open issues:</span>
-                  <span className="font-semibold text-orange-600">{repo.openIssues}</span>
+                  <span className="font-semibold text-orange-600">{repo.openIssues?repo.openIssues:"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Pull requests:</span>
-                  <span className="font-semibold text-blue-600">{repo.pullRequests}</span>
+                  <span className="font-semibold text-blue-600">{repo.pullRequests?repo.pullRequests:"0"}</span>
                 </div>
               </div>
             </div>
