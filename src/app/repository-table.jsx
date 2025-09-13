@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 
 export const getRepos = async (nume) => {
+  if (!nume) return []
   const res = await fetch("/api/repo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -25,17 +26,18 @@ export const getDataUser = async () =>{
 }
 
 export function RepositoryTable({ onRepositoryClick }) {
-    const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
+    const { data: user, error: userError } = useQuery({
         queryKey: ['user'],
         queryFn: getDataUser,
     })
+
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
-    const { data: repos } = useQuery({
+    const { data: repos, isLoading: isUserLoading} = useQuery({
         queryKey: ['repos', name],
         queryFn: () => getRepos(name),
         enabled: !!name, 
+        refetchOnMount: 'always',
     })
-
     const getStatusColor = (status) => {
         switch (status) {
         case false:
@@ -70,7 +72,7 @@ export function RepositoryTable({ onRepositoryClick }) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {(repos || []).map((repo) => (
+                {(Array.isArray(repos) ? repos : []).map(repo => (
                 <TableRow key={repo.name} className="hover:bg-muted/50">
                     <TableCell>
                     <div>
