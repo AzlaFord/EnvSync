@@ -1,6 +1,6 @@
 "use client"
 import { useQuery } from "@tanstack/react-query"
-import { createClient } from "@/utils/supabase/client"
+import { createClient2 } from "@/utils/supabase/client"
 import * as React from "react"
 import {
   AudioWaveform,
@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/sidebar"
 
 const getDataUser = async () =>{
-  const supabase = createClient()
+  const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
   return data
 }
@@ -74,6 +74,7 @@ const data2 = {
   
   ],
 }
+
 export function AppSidebar({
   ...props
 }) {

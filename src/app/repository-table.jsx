@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
+import { createClient2 } from "@/utils/supabase/client"
 
 const getRepos = async (nume) => {
   const res = await fetch("/api/repo", {
@@ -66,7 +67,7 @@ const repositories = [
 ]
 
 const getDataUser = async () =>{
-  const supabase = createClient()
+  const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
   return data
 }
@@ -76,13 +77,13 @@ export function RepositoryTable({ onRepositoryClick }) {
         queryKey: ['user'],
         queryFn: getDataUser,
     })
-    const name = user?.session?.identities?.[0]?.identity_data?.user_name
+    const name = user?.session?.user?.identities[0]?.identity_data?.user_name
     const { data: repos } = useQuery({
-        queryKey: ['repos', name?.login],
-        queryFn: () => getRepos(name.login),
+        queryKey: ['repos', name],
+        queryFn: () => getRepos(name),
         enabled: !!name, 
     })
-    console.log("salut",user)
+    console.log("salut",repos)
 
     const getStatusColor = (status) => {
         switch (status) {
