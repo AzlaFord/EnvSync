@@ -18,53 +18,6 @@ const getRepos = async (nume) => {
   return data
 }
 
-const repositories = [
-  {
-    name: "awesome-react-app",
-    description: "A modern React application with TypeScript and Tailwind CSS",
-    language: "TypeScript",
-    stars: 1247,
-    forks: 89,
-    lastUpdated: "2 hours ago",
-    status: "Active",
-  },
-  {
-    name: "node-api-server",
-    description: "RESTful API server built with Node.js and Express",
-    language: "JavaScript",
-    stars: 892,
-    forks: 156,
-    lastUpdated: "1 day ago",
-    status: "Active",
-  },
-  {
-    name: "python-data-analysis",
-    description: "Data analysis toolkit using pandas and matplotlib",
-    language: "Python",
-    stars: 634,
-    forks: 78,
-    lastUpdated: "3 days ago",
-    status: "Maintenance",
-  },
-  {
-    name: "vue-dashboard",
-    description: "Admin dashboard built with Vue.js 3 and Composition API",
-    language: "Vue",
-    stars: 445,
-    forks: 34,
-    lastUpdated: "1 week ago",
-    status: "Active",
-  },
-  {
-    name: "rust-cli-tool",
-    description: "Command-line utility written in Rust for file processing",
-    language: "Rust",
-    stars: 289,
-    forks: 23,
-    lastUpdated: "2 weeks ago",
-    status: "Archived",
-  },
-]
 
 const getDataUser = async () =>{
   const supabase = createClient2()
@@ -87,11 +40,9 @@ export function RepositoryTable({ onRepositoryClick }) {
 
     const getStatusColor = (status) => {
         switch (status) {
-        case "Active":
+        case false:
             return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-        case "Maintenance":
-            return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-        case "Archived":
+        case true:
             return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
         default:
             return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -121,7 +72,8 @@ export function RepositoryTable({ onRepositoryClick }) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {repositories.map((repo) => (
+                
+                {(repos || []).map((repo) => (
                 <TableRow key={repo.name} className="hover:bg-muted/50">
                     <TableCell>
                     <div>
@@ -141,7 +93,7 @@ export function RepositoryTable({ onRepositoryClick }) {
                     <TableCell className="text-center">
                     <div className="flex items-center justify-center gap-1">
                         <Star className="h-4 w-4" />
-                        {repo.stars.toLocaleString()}
+                        {repo.stargazers_count.toLocaleString()}
                     </div>
                     </TableCell>
                     <TableCell className="text-center">
@@ -151,12 +103,12 @@ export function RepositoryTable({ onRepositoryClick }) {
                     </div>
                     </TableCell>
                     <TableCell>
-                    <Badge className={getStatusColor(repo.status)}>{repo.status}</Badge>
+                    <Badge className={getStatusColor(repo.archived)}>{repo.archived?"Archived":"Active"}</Badge>
                     </TableCell>
                     <TableCell>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="h-4 w-4" />
-                        {repo.lastUpdated}
+                        {repo.pushed_at.slice(0, 10)}
                     </div>
                     </TableCell>
                     <TableCell className="text-right">
