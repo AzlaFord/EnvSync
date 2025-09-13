@@ -22,25 +22,30 @@ import {
   AlertCircle,
 } from "lucide-react"
 
-const getRepositoryDetails = (name) => {
-
-  return baseData
-  
+export const getRepoData = async (userName,repo) =>{
+  const result = await fetch("api/repoData",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ user: userName, repoName: repo })
+  })
+  const data = result.json()
+  return data
 }
 
+
 export function RepositoryDetails({ repositoryName, onBack }) {
-  const repo = getRepositoryDetails(repositoryName)
   const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
         queryKey: ['user'],
         queryFn: getDataUser,
     })
   const name = user?.session?.user?.identities[0]?.identity_data?.user_name
   
-  const { data: repos } = useQuery({
+  const { data: repo } = useQuery({
         queryKey: ['repos', name],
-        queryFn: () => getRepos(name),
+        queryFn: () => getRepoData(name,repositoryName),
         enabled: !!name, 
   })
+  console.log(repo)
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -55,18 +60,18 @@ export function RepositoryDetails({ repositoryName, onBack }) {
             <div>
               <CardTitle className="flex items-center gap-2 text-2xl">
                 <GitBranch className="h-6 w-6" />
-                {repo.fullName}
+                {repo.data?.full_name}
               </CardTitle>
-              <CardDescription className="mt-2 text-base">{repo.description}</CardDescription>
+              <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>
             </div>
             <Badge variant="outline" className="text-sm">
-              {repo.language}
+              {repo.data?.language}
             </Badge>
           </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2 mb-4">
-            {repo.topics.map((topic) => (
+            {(repo.data?.topics || []).map((topic) => (
               <Badge key={topic} variant="secondary" className="text-xs">
                 {topic}
               </Badge>
@@ -76,22 +81,22 @@ export function RepositoryDetails({ repositoryName, onBack }) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="flex items-center gap-2">
               <Star className="h-4 w-4 text-yellow-500" />
-              <span className="font-semibold">{repo.stars.toLocaleString()}</span>
+              <span className="font-semibold">{repo.data?.stargazers_count}</span>
               <span className="text-muted-foreground text-sm">stars</span>
             </div>
             <div className="flex items-center gap-2">
               <GitFork className="h-4 w-4" />
-              <span className="font-semibold">{repo.forks}</span>
+              <span className="font-semibold">{repo.data?.forks}</span>
               <span className="text-muted-foreground text-sm">forks</span>
             </div>
             <div className="flex items-center gap-2">
               <Eye className="h-4 w-4" />
-              <span className="font-semibold">{repo.watchers}</span>
+              <span className="font-semibold">{repo.data?.watchers}</span>
               <span className="text-muted-foreground text-sm">watching</span>
             </div>
             <div className="flex items-center gap-2">
               <Download className="h-4 w-4" />
-              <span className="font-semibold">{repo.size}</span>
+              <span className="font-semibold">{repo.data?.size / 1024}MB</span>
               <span className="text-muted-foreground text-sm">size</span>
             </div>
           </div>
@@ -105,12 +110,12 @@ export function RepositoryDetails({ repositoryName, onBack }) {
                 Timeline
               </h3>
               <div className="space-y-2 text-sm">
-                <div>Created: {repo.createdAt}</div>
-                <div>Last updated: {repo.updatedAt}</div>
+                <div>Created: {repo.data?.created_at.slice(0, 10)}</div>
+                <div>Last updated: {repo.data?.updatedAt}</div>
                 <div>
-                  Default branch: <Badge variant="outline">{repo.defaultBranch}</Badge>
+                  Default branch: <Badge variant="outline">{repo.data?.default_branch}</Badge>
                 </div>
-                <div>License: {repo.license}</div>
+                <div>License: {repo.data?.license}</div>
               </div>
             </div>
 

@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server"
+
 export async function POST(req) {
   const { user } = await req.json()
 
@@ -9,5 +11,5 @@ export async function POST(req) {
   })
 
   const data = await res.json()
-  return Response.json(data)
+  return NextResponse.json(data)
 }

@@ -18,7 +18,6 @@ export const getRepos = async (nume) => {
   return data
 }
 
-
 export const getDataUser = async () =>{
   const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
@@ -71,7 +70,6 @@ export function RepositoryTable({ onRepositoryClick }) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                
                 {(repos || []).map((repo) => (
                 <TableRow key={repo.name} className="hover:bg-muted/50">
                     <TableCell>
@@ -122,4 +120,4 @@ export function RepositoryTable({ onRepositoryClick }) {
         </CardContent>
         </Card>
     )
-    }
+}

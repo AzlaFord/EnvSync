@@ -16,6 +16,7 @@ export async function POST(request){
     const res = await fetch(`https://api.github.com/repos/${user}/${repoName}`, {
         headers: {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.mercy-preview+json"
         },
         cache: "no-store",
     })
