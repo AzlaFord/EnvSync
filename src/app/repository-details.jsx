@@ -43,7 +43,8 @@ export const getCommitsData = async (fullName) =>{
   const result = await fetch("api/repoCommits",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({fullName:fullName})
+    body:JSON.stringify({fullName:fullName}),
+    next:{revalidate:60}
   })
   const data = await result.json()
   return data
@@ -167,7 +168,7 @@ export function RepositoryDetails({ repositoryName, onBack }) {
                 </div>
                 <div className="flex justify-between">
                   <span>Contributors:</span>
-                  <span className="font-semibold">{repo.contributors?repo.contributors:"0"}</span>
+                  <span className="font-semibold">{repo.contributors?repo.contributors:"1"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Releases:</span>
@@ -187,7 +188,6 @@ export function RepositoryDetails({ repositoryName, onBack }) {
         </CardContent>
       </Card>
 
-      {/* Quick Actions */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
