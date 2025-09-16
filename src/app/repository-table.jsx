@@ -1,5 +1,5 @@
 "use client"
-
+import { useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,15 +11,24 @@ import { createClient2 } from "@/utils/supabase/client"
 export const getRepos = async ({ login, cursor = null, direction = "next" }) => {
   if (!login) return []
 
+  const body = { login }
+
+  if (direction === "next" && cursor) {
+    body.after = cursor
+  } else if (direction === "prev" && cursor) {
+    body.before = cursor
+  }
+
   const res = await fetch("/api/repo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ login, cursor, direction }),
+    body: JSON.stringify(body),
   })
 
   const data = await res.json()
   return data
 }
+
 
 export const getDataUser = async () =>{
   const supabase = createClient2()
@@ -28,21 +37,32 @@ export const getDataUser = async () =>{
 }
 
 export function RepositoryTable({ onRepositoryClick }) {
+
+    const [cursor,setCursor] = useState(null)
+    const [direction, setDirection] = useState("next")
+
+
     const { data: user, error: userError } = useQuery({
         queryKey: ['user'],
         queryFn: getDataUser,
     })
 
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
+
     const { data: repos, isLoading: isUserLoading} = useQuery({
-        queryKey: ['repos', name],
-        queryFn: () => getRepos({ login: name }),
+        queryKey: ['repos', name,cursor,direction],
+        queryFn: () => getRepos({ login: name ,cursor,direction}),
         enabled: !!name, 
         refetchOnMount: 'always',
         keepPreviousData: true,
     })
+    const pageInfo = repos?.data?.data?.user?.repositories?.pageInfo
+    console.log("pageInfo raw", pageInfo)
+    const endCursor = pageInfo?.endCursor
+    const startCursor = pageInfo?.startCursor
+    const hasNextPage = pageInfo?.hasNextPage
+    const hasPreviousPage = pageInfo?.hasPreviousPage
 
-    console.log(repos?.data?.data?.user?.repositories?.edges[1].node)
     const getStatusColor = (status) => {
         switch (status) { 
         case false:
@@ -128,8 +148,8 @@ export function RepositoryTable({ onRepositoryClick }) {
         </CardContent>
         </Card>
         <div className="flex justify-end w-full">
-            <Button variant="secondary" disabled={false}  className="ml-2 w-20">Prev</Button>
-            <Button variant="secondary" disabled={false}  className="ml-2 w-20">Next</Button>
+            <Button variant="secondary" disabled={!pageInfo?.hasPreviousPage} onClick={() => setCursor(pageInfo.startCursor)} className="ml-2 w-20">Prev</Button>
+            <Button variant="secondary" disabled={!pageInfo?.hasNextPage} onClick={() => setCursor(pageInfo.endCursor)}  className="ml-2 w-20">Next</Button>
         </div>
     </>            
     )
