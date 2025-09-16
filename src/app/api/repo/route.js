@@ -7,7 +7,6 @@ export async function POST(req) {
     headers: {
       Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
     },
-    cache: "no-store",
   })
 
   const data = await res.json()
