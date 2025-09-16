@@ -60,7 +60,8 @@ export const getCommitCount = async (repo,userName) =>{
 }
 
 export function RepositoryDetails({ repositoryName,owner, onBack }) {
-  
+  console.log("Owner",owner)
+    console.log("repositoryName",repositoryName)
   const {data:countComits }= useQuery({
     queryKey:['colabs',owner],
     queryFn:()=> getCommitCount(repositoryName,owner),
@@ -70,9 +71,9 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
   const commitsCount = countComits?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
 
   const { data: repo } = useQuery({
-    queryKey: ['repos', owner],
+    queryKey: ['repos', owner,repositoryName],
     queryFn: () => getRepoData(owner,repositoryName),
-    enabled: !!owner, 
+    enabled: !!owner && !!repositoryName,
   })
   if (!repo) return <div>Loading...</div>
   return (

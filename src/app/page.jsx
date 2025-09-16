@@ -35,7 +35,7 @@ export default function Page() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{selectedRepo ? selectedRepo : "All Repositories"}</BreadcrumbPage>
+                  <BreadcrumbPage>{selectedRepo?.name ? selectedRepo?.name : "All Repositories"}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -44,7 +44,7 @@ export default function Page() {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
               {selectedRepo ? (
-                <RepositoryDetails owner={selectedRepo.owner} repositoryName={selectedRepo} onBack={() => setSelectedRepo(null)} />
+                <RepositoryDetails  repositoryName={selectedRepo?.name}   owner={selectedRepo.owner} onBack={() => setSelectedRepo(null)} />
               ) : (
                 <RepositoryTable onRepositoryClick={setSelectedRepo} />
               )}

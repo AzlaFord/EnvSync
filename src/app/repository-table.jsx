@@ -117,7 +117,7 @@ export function RepositoryTable({ onRepositoryClick }) {
                     </div>
                     </TableCell>
                     <TableCell className="text-right">
-                    <Button size="sm" onClick={() => onRepositoryClick(repo?.node?.name)}>
+                    <Button size="sm" onClick={() => onRepositoryClick({name: repo.node.name, owner: repo.node.owner.login})}>
                         View Details
                     </Button>
                     </TableCell>

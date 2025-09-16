@@ -42,7 +42,6 @@ export async function POST(req) {
       variables: { login, cursor }
     })
   })
-  console.log("Login received in API:", login)
 
   const data = await res.json()
   return NextResponse.json({ message: "a mers totul bine", data }, { status: 200 })
