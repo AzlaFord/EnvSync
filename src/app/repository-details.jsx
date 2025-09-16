@@ -140,7 +140,7 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
                 Timeline
               </h3>
               <div className="space-y-2 text-sm">
-                <div>Created: {repo.data?.created_at}</div>
+                <div>Created: {repo.data?.created_at? new Date(repo.data?.created_at).toLocaleDateString():"N/A"}</div>
                 <div>Last updated: {timeAgo(repo.data?.updated_at)}</div>
                 <div>
                   Default branch: <Badge variant="outline">{repo.data?.default_branch}</Badge>
