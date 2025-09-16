@@ -39,23 +39,21 @@ function timeAgo(dateString) {
   if (months < 12)  return `${months} months ago`
   return `${years} years ago`
 }
-export const getCommitsData = async (fullName) =>{
-  const result = await fetch("api/repoCommits",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({fullName:fullName}),
-    next:{revalidate:60}
-  })
-  const data = await result.json()
-  return data
-}
-
 
 export const getRepoData = async (userName,repo) =>{
   const result = await fetch("api/repoData",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({ user: userName, repoName: repo })
+  })
+  const data = await result.json()
+  return data
+}
+export const getClaboration = async (repo,userName) =>{
+  const result = await fetch("/api/commitsCount",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({repoName:repo,owner:userName})
   })
   const data = result.json()
   return data
@@ -68,20 +66,19 @@ export function RepositoryDetails({ repositoryName, onBack }) {
   })
   
   const name = user?.session?.user?.identities[0]?.identity_data?.user_name
+  const {data:countComits}= useQuery({
+    queryKey:['colabs',name],
+    queryFn:()=> getClaboration(repositoryName,name),
+    enabled: !! name
+  })
   
+  const commitsCount = countComits.data.repository.defaultBranchRef.target.history.totalCount
+
   const { data: repo } = useQuery({
     queryKey: ['repos', name],
     queryFn: () => getRepoData(name,repositoryName),
     enabled: !!name, 
   })
-  const {data:commit} = useQuery({
-    queryKey:["commits",repo?.data?.full_name],
-    queryFn:() => getCommitsData(repo.data?.full_name),
-    enabled: !!repo?.data?.full_name,
-  })
-  console.log("length",commit?.commits?.length)
-
-  console.log(repo.data)
 
   return (
     <div className="space-y-6">
@@ -164,7 +161,7 @@ export function RepositoryDetails({ repositoryName, onBack }) {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Commits:</span>
-                  <span className="font-semibold">{commit?.commits?.length?commit?.commits?.length:"0"}</span>
+                  <span className="font-semibold">{commitsCount?commitsCount:"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Contributors:</span>
