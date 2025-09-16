@@ -8,16 +8,10 @@ import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 
-export const getRepos = async ({ login, cursor = null, direction = "next" }) => {
+export const getRepos = async ({ login, cursor = null, direction = "next", pageSize = 10 }) => {
   if (!login) return []
 
-  const body = { login }
-
-  if (direction === "next" && cursor) {
-    body.after = cursor
-  } else if (direction === "prev" && cursor) {
-    body.before = cursor
-  }
+  const body = { login, cursor, direction, pageSize }
 
   const res = await fetch("/api/repo", {
     method: "POST",
@@ -25,8 +19,7 @@ export const getRepos = async ({ login, cursor = null, direction = "next" }) => 
     body: JSON.stringify(body),
   })
 
-  const data = await res.json()
-  return data
+  return res.json()
 }
 
 
@@ -39,16 +32,13 @@ export const getDataUser = async () =>{
 export function RepositoryTable({ onRepositoryClick }) {
 
     const [cursor,setCursor] = useState(null)
-    const [direction, setDirection] = useState("next")
-
-
+    const [direction,setDirection] = useState('next')
     const { data: user, error: userError } = useQuery({
         queryKey: ['user'],
         queryFn: getDataUser,
     })
 
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
-
     const { data: repos, isLoading: isUserLoading} = useQuery({
         queryKey: ['repos', name,cursor,direction],
         queryFn: () => getRepos({ login: name ,cursor,direction}),
@@ -57,12 +47,7 @@ export function RepositoryTable({ onRepositoryClick }) {
         keepPreviousData: true,
     })
     const pageInfo = repos?.data?.data?.user?.repositories?.pageInfo
-    console.log("pageInfo raw", pageInfo)
-    const endCursor = pageInfo?.endCursor
-    const startCursor = pageInfo?.startCursor
-    const hasNextPage = pageInfo?.hasNextPage
-    const hasPreviousPage = pageInfo?.hasPreviousPage
-
+    console.log(pageInfo)
     const getStatusColor = (status) => {
         switch (status) { 
         case false:
@@ -73,7 +58,19 @@ export function RepositoryTable({ onRepositoryClick }) {
             return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
         }
     }
+    const nextPage = () => {
+        if (pageInfo?.endCursor) {
+            setDirection("next")
+            setCursor(pageInfo.endCursor)
+        }
+    }
 
+    const prevPage = () => {
+        if (pageInfo?.startCursor) {
+            setDirection("prev")
+            setCursor(pageInfo.startCursor)
+        }
+    }
     return (
         <>
         <Card>
@@ -148,8 +145,8 @@ export function RepositoryTable({ onRepositoryClick }) {
         </CardContent>
         </Card>
         <div className="flex justify-end w-full">
-            <Button variant="secondary" disabled={!pageInfo?.hasPreviousPage} onClick={() => setCursor(pageInfo.startCursor)} className="ml-2 w-20">Prev</Button>
-            <Button variant="secondary" disabled={!pageInfo?.hasNextPage} onClick={() => setCursor(pageInfo.endCursor)}  className="ml-2 w-20">Next</Button>
+            <Button variant="secondary" disabled={!pageInfo?.hasPreviousPage} onClick={prevPage} className="ml-2 w-20">Prev</Button>
+            <Button variant="secondary" disabled={!pageInfo?.hasNextPage} onClick={nextPage}  className="ml-2 w-20">Next</Button>
         </div>
     </>            
     )
