@@ -49,7 +49,7 @@ export const getRepoData = async (userName,repo) =>{
   const data = await result.json()
   return data
 }
-export const getClaboration = async (repo,userName) =>{
+export const getCommitCount = async (repo,userName) =>{
   const result = await fetch("/api/commitsCount",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -66,13 +66,13 @@ export function RepositoryDetails({ repositoryName, onBack }) {
   })
   
   const name = user?.session?.user?.identities[0]?.identity_data?.user_name
-  const {data:countComits}= useQuery({
+  const {data:countComits }= useQuery({
     queryKey:['colabs',name],
-    queryFn:()=> getClaboration(repositoryName,name),
+    queryFn:()=> getCommitCount(repositoryName,name),
     enabled: !! name
   })
-  
-  const commitsCount = countComits.data.repository.defaultBranchRef.target.history.totalCount
+  console.log(countComits)
+  const commitsCount = countComits?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
 
   const { data: repo } = useQuery({
     queryKey: ['repos', name],
