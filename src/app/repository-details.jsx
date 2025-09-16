@@ -59,27 +59,22 @@ export const getCommitCount = async (repo,userName) =>{
   return data
 }
 
-export function RepositoryDetails({ repositoryName, onBack }) {
-  const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
-    queryKey: ['user'],
-    queryFn: getDataUser,
-  })
+export function RepositoryDetails({ repositoryName,owner, onBack }) {
   
-  const name = user?.session?.user?.identities[0]?.identity_data?.user_name
   const {data:countComits }= useQuery({
-    queryKey:['colabs',name],
-    queryFn:()=> getCommitCount(repositoryName,name),
-    enabled: !! name
+    queryKey:['colabs',owner],
+    queryFn:()=> getCommitCount(repositoryName,owner),
+    enabled: !! owner
   })
   console.log(countComits)
   const commitsCount = countComits?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
 
   const { data: repo } = useQuery({
-    queryKey: ['repos', name],
-    queryFn: () => getRepoData(name,repositoryName),
-    enabled: !!name, 
+    queryKey: ['repos', owner],
+    queryFn: () => getRepoData(owner,repositoryName),
+    enabled: !!owner, 
   })
-
+  if (!repo) return <div>Loading...</div>
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -144,7 +139,7 @@ export function RepositoryDetails({ repositoryName, onBack }) {
                 Timeline
               </h3>
               <div className="space-y-2 text-sm">
-                <div>Created: {repo.data?.created_at.slice(0, 10)}</div>
+                <div>Created: {repo.data?.created_at}</div>
                 <div>Last updated: {timeAgo(repo.data?.updated_at)}</div>
                 <div>
                   Default branch: <Badge variant="outline">{repo.data?.default_branch}</Badge>

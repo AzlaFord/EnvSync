@@ -44,7 +44,7 @@ export default function Page() {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
               {selectedRepo ? (
-                <RepositoryDetails repositoryName={selectedRepo} onBack={() => setSelectedRepo(null)} />
+                <RepositoryDetails owner={selectedRepo.owner} repositoryName={selectedRepo} onBack={() => setSelectedRepo(null)} />
               ) : (
                 <RepositoryTable onRepositoryClick={setSelectedRepo} />
               )}

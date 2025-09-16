@@ -8,13 +8,15 @@ import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 
-export const getRepos = async (nume) => {
-  if (!nume) return []
+export const getRepos = async ({ login, cursor = null, direction = "next" }) => {
+  if (!login) return []
+
   const res = await fetch("/api/repo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user: nume }),
+    body: JSON.stringify({ login, cursor, direction }),
   })
+
   const data = await res.json()
   return data
 }
@@ -34,13 +36,15 @@ export function RepositoryTable({ onRepositoryClick }) {
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
     const { data: repos, isLoading: isUserLoading} = useQuery({
         queryKey: ['repos', name],
-        queryFn: () => getRepos(name),
+        queryFn: () => getRepos({ login: name }),
         enabled: !!name, 
         refetchOnMount: 'always',
         keepPreviousData: true,
     })
+
+    console.log(repos?.data?.data?.user?.repositories?.edges[1].node)
     const getStatusColor = (status) => {
-        switch (status) {
+        switch (status) { 
         case false:
             return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
         case true:
@@ -74,46 +78,46 @@ export function RepositoryTable({ onRepositoryClick }) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {(Array.isArray(repos) ? repos : []).map(repo => (
-                <TableRow key={repo.name} className="hover:bg-muted/50">
+                {(Array.isArray(repos?.data?.data?.user?.repositories?.edges) ? repos?.data?.data?.user?.repositories?.edges : []).map(repo => (
+                <TableRow key={repo.node.id} className="hover:bg-muted/50">
                     <TableCell>
                     <div>
                         <Button
                         variant="link"
                         className="p-0 h-auto font-semibold text-left"
-                        onClick={() => onRepositoryClick(repo.name)}
+                        onClick={() => onRepositoryClick( {name: repo.node.name, owner: repo.node.owner.login} )}
                         >
-                        {repo.name}
+                        {repo.node.name !=null ?repo.node.name:" "}
                         </Button>
-                        <p className="text-sm text-muted-foreground mt-1">{repo.description?repo.description:"There is no description"}</p>
+                        <p className="text-sm text-muted-foreground mt-1">{repo.node.description?repo.node.description:"There is no description"}</p>
                     </div>
                     </TableCell>
                     <TableCell>
-                    <Badge variant="outline">{repo.language}</Badge>
+                    <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
                     </TableCell>
                     <TableCell className="text-center">
                     <div className="flex items-center justify-center gap-1">
                         <Star className="h-4 w-4" />
-                        {repo.stargazers_count.toLocaleString()}
+                        {repo.node.stargazerCount != null ? repo.node.stargazerCount.toLocaleString() : 0}
                     </div>
                     </TableCell>
                     <TableCell className="text-center">
                     <div className="flex items-center justify-center gap-1">
                         <GitFork className="h-4 w-4" />
-                        {repo.forks}
+                        {repo.node.forkCount != null ?repo.node.forkCount:"0" }
                     </div>
                     </TableCell>
                     <TableCell>
-                    <Badge className={getStatusColor(repo.archived)}>{repo.archived?"Archived":"Active"}</Badge>
+                    <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
                     </TableCell>
                     <TableCell>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="h-4 w-4" />
-                        {repo.pushed_at.slice(0, 10)}
+                        {repo.node.pushedAt ? new Date(repo.node.pushedAt).toLocaleDateString() : "N/A"}
                     </div>
                     </TableCell>
                     <TableCell className="text-right">
-                    <Button size="sm" onClick={() => onRepositoryClick(repo.name)}>
+                    <Button size="sm" onClick={() => onRepositoryClick(repo?.node?.name)}>
                         View Details
                     </Button>
                     </TableCell>
