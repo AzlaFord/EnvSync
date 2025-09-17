@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 
 export default function Loading(){
-    const nrRepoSkeleton = [1,2,3,4,5,6,7,8,9,10];
+    const skeletonRows = Array.from({ length: 10 }, (_, i) => i);
 
 
     return (<>
@@ -22,25 +22,25 @@ export default function Loading(){
             <Table>
             <TableHeader>
                 <TableRow>
-                <TableHead>Repository</TableHead>
-                <TableHead>Language</TableHead>
-                <TableHead className="text-center">Stars</TableHead>
-                <TableHead className="text-center">Forks</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Last Updated</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>Repository</TableHead>
+                    <TableHead>Language</TableHead>
+                    <TableHead className="text-center">Stars</TableHead>
+                    <TableHead className="text-center">Forks</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Last Updated</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {nrRepoSkeleton.map((number) => (
-                    <TableRow key={number} className="hover:bg-muted/50">
+                {skeletonRows.map((i) => (
+                    <TableRow key={i} className="hover:bg-muted/50">
                         <TableCell>
                         <div>
                             <Button
                             variant="link"
                             className="p-0 h-auto font-semibold text-left"
                             >
-                            <Skeleton className="h-4 w-[75px]"></Skeleton>
+                            <Skeleton className="h-5 w-[75px]"></Skeleton>
                             </Button>
                             <div className="text-sm text-muted-foreground mt-1"><Skeleton className="h-4 w-[170px]"/></div>
                         </div>

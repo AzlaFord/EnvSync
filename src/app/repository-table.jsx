@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
-import Loading from "./loading"
+import LoadingPage from "./Loading"
 
 export const getRepos = async ({ login, cursor = null, direction = "next", pageSize = 10 }) => {
   if (!login) return []
@@ -48,10 +48,8 @@ export function RepositoryTable({ onRepositoryClick }) {
         keepPreviousData: true,
     })
 
-    if(isUserLoading){
-        return <> <Loading/></>
-    }
-
+    if (isUserLoading) return <LoadingPage />;
+    
     const pageInfo = repos?.data?.data?.user?.repositories?.pageInfo
 
     const getStatusColor = (status) => {

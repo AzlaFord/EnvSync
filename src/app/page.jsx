@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import { RepositoryTable } from "./repository-table"
 import { RepositoryDetails } from "./repository-details"
+
 export default function Page() {
   const [selectedRepo, setSelectedRepo] = useState(null)
   return (
@@ -46,6 +47,7 @@ export default function Page() {
               {selectedRepo ? (
                 <RepositoryDetails  repositoryName={selectedRepo?.name}   owner={selectedRepo.owner} onBack={() => setSelectedRepo(null)} />
               ) : (
+                
                 <RepositoryTable onRepositoryClick={setSelectedRepo} />
               )}
           </div>
