@@ -1,78 +1,5 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { useQuery } from "@tanstack/react-query"
-
-import {
-  ArrowLeft,
-  GitBranch,
-  Star,
-  GitFork,
-  Eye,
-  Download,
-  Calendar,
-  User,
-  FileText,
-  Code,
-  AlertCircle,
-} from "lucide-react"
-
-function timeAgo(dateString) {
-  const updatedAt = new Date(dateString)
-  const diff = Date.now() - updatedAt.getTime()
-  const seconds = Math.floor(diff / 1000)
-  const minutes = Math.floor(seconds / 60)
-  const hours   = Math.floor(minutes / 60)
-  const days    = Math.floor(hours / 24)
-  const months  = Math.floor(days / 30)
-  const years   = Math.floor(days / 365)
-
-  if (seconds < 60) return `${seconds} seconds ago`
-  if (minutes < 60) return `${minutes} minutes ago`
-  if (hours < 24)   return `${hours} hours ago`
-  if (days < 30)    return `${days} days ago`
-  if (months < 12)  return `${months} months ago`
-  return `${years} years ago`
-}
-
-export const getRepoData = async (userName,repo) =>{
-  const result = await fetch("api/repoData",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ user: userName, repoName: repo })
-  })
-  const data = await result.json()
-  return data
-}
-export const getCommitCount = async (repo,userName) =>{
-  const result = await fetch("/api/commitsCount",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({repoName:repo,owner:userName})
-  })
-  const data = result.json()
-  return data
-}
-
-export function RepositoryDetails({ repositoryName,owner, onBack }) {
-  const {data:countComits }= useQuery({
-    queryKey:['colabs',owner],
-    queryFn:()=> getCommitCount(repositoryName,owner),
-    enabled: !! owner
-  })
-  
-  const commitsCount = countComits?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
-
-  const { data: repo } = useQuery({
-    queryKey: ['repos', owner,repositoryName],
-    queryFn: () => getRepoData(owner,repositoryName),
-    enabled: !!owner && !!repositoryName,
-  })
-  if (!repo) return <div>Loading...</div>
-  return (
+export default function LoadingDetails(){
+    return (<>
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="outline" size="sm" onClick={onBack}>
@@ -208,5 +135,5 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
         </CardContent>
       </Card>
     </div>
-  )
-  }
+    </>)
+}
