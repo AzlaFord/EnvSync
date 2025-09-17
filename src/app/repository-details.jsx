@@ -6,8 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
 
-import { getDataUser,getRepos } from "./repository-table"
-
 import {
   ArrowLeft,
   GitBranch,
