@@ -49,7 +49,7 @@ export function RepositoryTable({ onRepositoryClick }) {
     })
 
     if (isUserLoading) return <LoadingPage />;
-    
+
     const pageInfo = repos?.data?.data?.user?.repositories?.pageInfo
 
     const getStatusColor = (status) => {
@@ -115,7 +115,7 @@ export function RepositoryTable({ onRepositoryClick }) {
                     </div>
                     </TableCell>
                     <TableCell>
-                    <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
+                        <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
                     </TableCell>
                     <TableCell className="text-center">
                     <div className="flex items-center justify-center gap-1">
@@ -130,7 +130,7 @@ export function RepositoryTable({ onRepositoryClick }) {
                     </div>
                     </TableCell>
                     <TableCell>
-                    <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
+                        <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
                     </TableCell>
                     <TableCell>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
