@@ -43,7 +43,7 @@ const data2 = {
       items: [
         {
           title: "All Repositories",
-          url: "#",
+          url: "/",
           action: "repositories",
         },
         {
