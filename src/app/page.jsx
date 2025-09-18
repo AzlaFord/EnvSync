@@ -14,12 +14,15 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+
 import { useState } from "react";
 import { RepositoryTable } from "./repository-table"
 import { RepositoryDetails } from "./repository-details"
 
 export default function Page() {
   const [selectedRepo, setSelectedRepo] = useState(null)
+  const [value, setValue] = useState("")
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -45,10 +48,9 @@ export default function Page() {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
               {selectedRepo ? (
-                <RepositoryDetails  repositoryName={selectedRepo?.name}   owner={selectedRepo.owner} onBack={() => setSelectedRepo(null)} />
+                <RepositoryDetails repositoryName={selectedRepo?.name} owner={selectedRepo.owner} onBack={() => setSelectedRepo(null)} />
               ) : (
-                
-                <RepositoryTable onRepositoryClick={setSelectedRepo} />
+                <RepositoryTable onRepositoryClick={setSelectedRepo} value={value} sendToParent={setValue} />
               )}
           </div>
         </div>

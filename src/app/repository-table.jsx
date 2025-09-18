@@ -29,9 +29,9 @@ export const getDataUser = async () =>{
   return data
 }
 
-export function RepositoryTable({ onRepositoryClick }) {
+export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
 
-    const [cursor,setCursor] = useState(null)
+    const [cursor,setCursor] = useState(value)
     const [direction,setDirection] = useState('next')
     const { data: user, error: userError } = useQuery({
         queryKey: ['user'],
@@ -62,16 +62,20 @@ export function RepositoryTable({ onRepositoryClick }) {
         }
     }
     const nextPage = () => {
+        
         if (pageInfo?.endCursor) {
             setDirection("next")
             setCursor(pageInfo.endCursor)
+            sendToParent(pageInfo.endCursor)
         }
     }
 
     const prevPage = () => {
+        
         if (pageInfo?.startCursor) {
             setDirection("prev")
             setCursor(pageInfo.startCursor)
+            sendToParent(pageInfo.startCursor)
         }
     }
 
@@ -149,7 +153,7 @@ export function RepositoryTable({ onRepositoryClick }) {
         </CardContent>
         </Card>
         <div className="flex justify-end w-full">
-            <Button variant="secondary" disabled={!pageInfo?.hasPreviousPage} onClick={prevPage} className="ml-2 w-20">Prev</Button>
+            <Button variant="secondary" disabled={!pageInfo?.hasPreviousPage} onClick={prevPage}  className="ml-2 w-20">Prev</Button>
             <Button variant="secondary" disabled={!pageInfo?.hasNextPage} onClick={nextPage}  className="ml-2 w-20">Next</Button>
         </div>
     </>            
