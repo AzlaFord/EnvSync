@@ -1,5 +1,5 @@
 "use client"
-
+import LoadingDetails from "@/components/LoadingDetails"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -58,6 +58,8 @@ export const getCommitCount = async (repo,userName) =>{
 }
 
 export function RepositoryDetails({ repositoryName,owner, onBack }) {
+
+
   const {data:countComits }= useQuery({
     queryKey:['colabs',owner],
     queryFn:()=> getCommitCount(repositoryName,owner),
@@ -71,7 +73,7 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
     queryFn: () => getRepoData(owner,repositoryName),
     enabled: !!owner && !!repositoryName,
   })
-  if (!repo) return <div>Loading...</div>
+  if (!repo) return <LoadingDetails/>
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">

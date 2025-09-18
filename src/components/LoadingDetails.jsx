@@ -1,8 +1,27 @@
+import { Skeleton } from "./ui/skeleton"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import {
+  ArrowLeft,
+  GitBranch,
+  Star,
+  GitFork,
+  Eye,
+  Download,
+  Calendar,
+  User,
+  FileText,
+  Code,
+  AlertCircle,
+} from "lucide-react"
+
 export default function LoadingDetails(){
     return (<>
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" onClick={onBack}>
+        <Button variant="outline" size="sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
@@ -13,62 +32,58 @@ export default function LoadingDetails(){
             <div>
               <CardTitle className="flex items-center gap-2 text-2xl">
                 <GitBranch className="h-6 w-6" />
-                {repo.data?.full_name}
+                <Skeleton className="ml-1 h-6 w-[70px]"/>
               </CardTitle>
-              <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>
+              <CardDescription className="mt-2 text-base"><Skeleton className="ml-1 h-4 w-[200px]"/></CardDescription>
             </div>
-            <Badge variant="outline" className="text-sm">
-              {repo.data?.language}
-            </Badge>
+            <Skeleton className="ml-1 h-4 w-[60px]"/>
           </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2 mb-4">
-            {(repo.data?.topics || []).map((topic) => (
-              <Badge key={topic} variant="secondary" className="text-xs">
-                {topic}
+              <Badge variant="secondary" className="text-xs">
+                <Skeleton className="ml-1 h-4 w-[50px]"/>
               </Badge>
-            ))}
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="flex items-center gap-2">
               <Star className="h-4 w-4 text-yellow-500" />
-              <span className="font-semibold">{repo.data?.stargazers_count}</span>
-              <span className="text-muted-foreground text-sm">stars</span>
+              <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[100px]"/></span>
+              <span className="text-muted-foreground text-sm"></span>
             </div>
             <div className="flex items-center gap-2">
               <GitFork className="h-4 w-4" />
-              <span className="font-semibold">{repo.data?.forks}</span>
-              <span className="text-muted-foreground text-sm">forks</span>
+              <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[100px]"/></span>
+              <span className="text-muted-foreground text-sm"></span>
             </div>
             <div className="flex items-center gap-2">
               <Eye className="h-4 w-4" />
-              <span className="font-semibold">{repo.data?.watchers}</span>
-              <span className="text-muted-foreground text-sm">watching</span>
+              <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[100px]"/></span>
+              <span className="text-muted-foreground text-sm"></span>
             </div>
             <div className="flex items-center gap-2">
               <Download className="h-4 w-4" />
-              <span className="font-semibold">{repo.data ?(repo.data?.size / 1024).toFixed(2):"0.00"}MB</span>
-              <span className="text-muted-foreground text-sm">size</span>
+              <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[100px]"/></span>
+              <span className="text-muted-foreground text-sm"></span>
             </div>
           </div>
           
           <Separator className="my-4" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <h3 className="font-semibold flex items-center gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-end">
+            <div className="space-y-3 justify-end">
+              <h3 className="font-semibold flex items-center gap-2 ">
                 <Calendar className="h-4 w-4" />
                 Timeline
               </h3>
-              <div className="space-y-2 text-sm">
-                <div>Created: {repo.data?.created_at? new Date(repo.data?.created_at).toLocaleDateString():"N/A"}</div>
-                <div>Last updated: {timeAgo(repo.data?.updated_at)}</div>
-                <div>
-                  Default branch: <Badge variant="outline">{repo.data?.default_branch}</Badge>
+              <div className="space-y-2 text-sm justify-end">
+                <div className="flex justify-start">Created: <Skeleton className="ml-1 h-4 w-[100px] "/></div>
+                <div className="flex justify-start">Last updated:<Skeleton className="flex justify-end items-center ml-1 h-4 w-[100px]"/></div>
+                <div className="flex justify-start">
+                  Default branch: <Skeleton className="ml-1 h-4 w-[40px]"/>
                 </div>
-                <div>License: {repo.data?.license?repo.data?.license:"No license"}</div>
+                <div className="flex justify-start">License: <Skeleton className="ml-1 h-4 w-[50px]"/></div>
               </div>
             </div>
 
@@ -80,23 +95,23 @@ export default function LoadingDetails(){
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Commits:</span>
-                  <span className="font-semibold">{commitsCount?commitsCount:"0"}</span>
+                  <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[20px]"/></span>
                 </div>
                 <div className="flex justify-between">
                   <span>Contributors:</span>
-                  <span className="font-semibold">{repo.contributors?repo.contributors:"1"}</span>
+                  <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[20px]"/></span>
                 </div>
                 <div className="flex justify-between">
                   <span>Releases:</span>
-                  <span className="font-semibold">{repo.releases?repo.releases:"0"}</span>
+                  <span className="font-semibold"><Skeleton className="ml-1 h-4 w-[20px]"/></span>
                 </div>
                 <div className="flex justify-between">
                   <span>Open issues:</span>
-                  <span className="font-semibold text-orange-600">{repo.openIssues?repo.openIssues:"0"}</span>
+                  <span className="font-semibold text-orange-600"><Skeleton className="ml-1 h-4 w-[20px]"/></span>
                 </div>
                 <div className="flex justify-between">
                   <span>Pull requests:</span>
-                  <span className="font-semibold text-blue-600">{repo.pullRequests?repo.pullRequests:"0"}</span>
+                  <span className="font-semibold text-blue-600"><Skeleton className="ml-1 h-4 w-[20px]"/></span>
                 </div>
               </div>
             </div>
@@ -119,15 +134,15 @@ export default function LoadingDetails(){
             </Button>
             <Button variant="outline">
               <AlertCircle className="h-4 w-4 mr-2" />
-              Issues ({repo.openIssues})
+              Issues 
             </Button>
             <Button variant="outline">
               <User className="h-4 w-4 mr-2" />
-              Contributors ({repo.contributors})
+              Contributors 
             </Button>
             <Button variant="outline"  >
               <GitBranch className="h-4 w-4 mr-2" />
-              <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer">
+              <a target="_blank" rel="noopener noreferrer">
                 Repository
               </a>
             </Button>
