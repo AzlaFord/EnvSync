@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
+import KeysSection from "@/components/env-keys-section"
 
 import {
   ArrowLeft,
@@ -147,6 +148,7 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
               </div>
             </div>
 
+
             <div className="space-y-3">
               <h3 className="font-semibold flex items-center gap-2">
                 <Code className="h-4 w-4" />
@@ -179,6 +181,7 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
         </CardContent>
       </Card>
 
+            <KeysSection/>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
