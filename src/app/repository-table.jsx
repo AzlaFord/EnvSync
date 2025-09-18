@@ -23,7 +23,6 @@ export const getRepos = async ({ login, cursor = null, direction = "next", pageS
   return res.json()
 }
 
-
 export const getDataUser = async () =>{
   const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
