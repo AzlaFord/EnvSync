@@ -200,9 +200,9 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
               <User className="h-4 w-4 mr-2" />
               Contributors ({repo.contributors})
             </Button>
-            <Button variant="outline"  >
-              <GitBranch className="h-4 w-4 mr-2" />
-              <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" asChild>
+              <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                <GitBranch className="h-4 w-4 mr-2" />
                 Repository
               </a>
             </Button>
