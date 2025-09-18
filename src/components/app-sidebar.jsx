@@ -18,7 +18,7 @@ import {
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { Platfrom } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -35,20 +35,10 @@ const getDataUser = async () =>{
 const data2 = {
   teams: [
     {
-      name: "Acme Inc",
+      name: "EnvSync",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
+      plan: "Save your keys",
+    }
   ],
   navMain: [
     {
@@ -59,15 +49,15 @@ const data2 = {
       items: [
         {
           title: "History",
-          url: "#",
+          url: "/",
         },
         {
           title: "Starred",
-          url: "#",
+          url: "/",
         },
         {
           title: "Settings",
-          url: "#",
+          url: "/",
         },
       ],
     },
@@ -87,7 +77,7 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data2.teams} />
+        <Platfrom platfrom={data2.teams} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data2.navMain} />
