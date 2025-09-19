@@ -16,11 +16,12 @@ export async function addEnvVars(repo_id, user_id, secretsInput) {
   } else {
     throw new Error("Invalid secrets format");
   }
-
+  if (!repo_id.match(/^[0-9a-fA-F-]{36}$/)) {
+    throw new Error("repo_id trebuie să fie un UUID valid");
+  }
   for (const s of secretsArray) {
     const { cipher, iv, tag } = encrypt(s.value);
-
-    await supabase.from("env_vars").insert({
+    const { data, error } = await supabase.from("env_vars").insert({
       repo_id,
       key_name: s.key_name,
       encrypted_value: cipher,
@@ -28,5 +29,9 @@ export async function addEnvVars(repo_id, user_id, secretsInput) {
       tag,
       created_by: user_id,
     });
+    if (error) {
+      console.error("Insert error:", error);
+      throw error;
+    }
   }
 }

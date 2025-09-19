@@ -14,6 +14,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { GitBranch, Copy,Trash2,EyeOff,Star,Eye, Plus, Key,Download } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+
+const handleAddKey = async (repoId,user_id,newKey) => {
+  const secrets = [{ key_name: newKey.key, value: newKey.value }]
+  const res = await fetch('/api/addKey',{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({repoId,user_id,secrets})
+  })
+  if(!res.ok) return null
+  return await res.json()
+}
+
+
 
 export default function KeysSection({repositoryName,repositoryId,userId}){
   
@@ -30,19 +44,6 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
 
-    const handleAddKey = () => {
-        if (newKey.key && newKey.value) {
-        setEnvKeys([
-            ...envKeys,
-            {
-            id: Date.now().toString(),
-            ...newKey,
-            },
-        ])
-        setNewKey({ key: "", value: "" })
-        setIsAddingKey(false)
-        }
-    }
     const handleDeleteKey = (id) => {
         setEnvKeys(envKeys.filter((key) => key.id !== id))
         setVisibleKeys((prev) => {
@@ -139,7 +140,12 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                       <Button variant="outline" onClick={() => setIsAddingKey(false)}>
                         Cancel
                       </Button>
-                      <Button onClick={handleAddKey}>Add Key</Button>
+                      <Button onClick={async () => {
+                          const res = await handleAddKey(repositoryId,userId,newKey);
+                          if (res) {
+                            setNewKey({ key: "", value: "" });
+                          }}}>Add Key</Button>
+
                     </div>
                   </div>
                 </DialogContent>
