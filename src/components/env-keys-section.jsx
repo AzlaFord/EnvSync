@@ -94,14 +94,22 @@ export default function KeysSection({repositoryName,}){
               Environment Keys
             </CardTitle>
             <div className="flex gap-2">
-
               <Dialog open={isAddingKey} onOpenChange={setIsAddingKey}>
+                {envKeys.length > 0?(
                 <DialogTrigger asChild>
                   <Button size="sm">
                     <Plus className="h-4 w-4 mr-2" />
                     Add Key
                   </Button>
                 </DialogTrigger>
+                ):(
+                <DialogTrigger asChild className="hidden">
+                  <Button size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Key
+                  </Button>
+                </DialogTrigger>
+                )}
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Add Environment Key</DialogTitle>
