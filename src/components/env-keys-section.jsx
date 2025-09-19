@@ -73,7 +73,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     }
 
     const copyToClipboard = async (value) => {
-        copy(value);
+      copy(value);
     }
 
     const downloadEnvFile = () => {
@@ -165,7 +165,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                 <div key={key.id} className="flex items-end justify-between p-3 border rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <code className="ml-2 font-mono text-sm font-semibold text-shadow-lg ">{key.key_name}</code>
+                      <code className="ml-2 font-mono text-sm font-semibold text-shadow-lg ">Key:{key.key_name}</code>
                     </div>
                     <Separator className='my-2'/>
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
@@ -174,7 +174,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         {key.value}
                       </p> 
                       </div>
-                      : <div className="ml-1 bg-muted relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9">The key</div>}
+                      : <div className="ml-1 bg-muted relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9 pl-1">  Key Value</div>}
                       <div className="flex items-top gap-2">
                         <Button
                           variant="ghost"
