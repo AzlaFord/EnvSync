@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
 import {
   Dialog,
   DialogContent,
@@ -30,12 +31,11 @@ const handleAddKey = async (repoId,user_id,newKey) => {
 
 
 export default function KeysSection({repositoryName,repositoryId,userId}){
-  
     const [envKeys, setEnvKeys] = useState([
         {
         id: "1",
         key: "DATABASE_URL",
-        value: "postgresql://user:pass@localhost:5432/mydb",
+        value: "postgresql://user:pass@localhost:5432/mydb1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
         },
         { id: "2", key: "API_SECRET_KEY", value: "sk_live_abc123def456ghi789" },
         { id: "3", key: "REDIS_URL", value: "redis://localhost:6379" },
@@ -88,7 +88,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
         URL.revokeObjectURL(url)
     }
     return(<>
-      <Card>
+      <Card >
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
@@ -167,43 +167,46 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
           ) : (
             <div className="space-y-3">
               {envKeys.map((envKey) => (
-                <div key={envKey.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div key={envKey.id} className="flex items-end justify-between p-3 border rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <code className="font-mono text-sm font-semibold">{envKey.key}</code>
-                      <Badge variant="outline" className="text-xs">
-                        {visibleKeys.has(envKey.id) ? "Visible" : "Hidden"}
-                      </Badge>
+                      <code className="ml-2 font-mono text-sm font-semibold text-shadow-lg ">{envKey.key}</code>
                     </div>
-                    <code className="text-xs text-muted-foreground font-mono">
-                      {visibleKeys.has(envKey.id) ? envKey.value : "•".repeat(Math.min(envKey.value.length, 20))}
+                    <Separator className='my-2'/>
+                    <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
+                      {visibleKeys.has(envKey.id) ? <div className="  ml-1 bg-muted relative rounded pl-1 py-1 font-mono text-sm font-semibold border-2 border-dashed w-8/9 overflow-hidden">
+                      <p className="w-full min-w-20 truncate"> 
+                        {envKey.value}
+                      </p> 
+                      </div>
+                      : <div className="ml-1 bg-muted relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9">The key</div>}
+                      <div className="flex items-top gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => toggleKeyVisibility(envKey.id)}
+                          className="text-muted-foreground hover:text-foreground"
+                        >
+                        {visibleKeys.has(envKey.id) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(envKey.value)}
+                          className="text-muted-foreground hover:text-foreground"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDeleteKey(envKey.id)}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </code>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => toggleKeyVisibility(envKey.id)}
-                      className="text-muted-foreground hover:text-foreground"
-                    >
-                      {visibleKeys.has(envKey.id) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => copyToClipboard(envKey.value)}
-                      className="text-muted-foreground hover:text-foreground"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDeleteKey(envKey.id)}
-                      className="text-destructive hover:text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
                   </div>
                 </div>
               ))}

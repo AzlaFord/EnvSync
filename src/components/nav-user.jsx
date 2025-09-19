@@ -38,6 +38,7 @@ export function NavUser({
   const avatar = user?.user_metadata?.avatar_url
   const name = user?.identities?.[0]?.identity_data?.user_name
   const email = user?.email
+  console.log('username',name)
   return (
     <SidebarMenu>
       <SidebarMenuItem>
