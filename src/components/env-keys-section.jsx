@@ -1,5 +1,6 @@
 'use client'
 import { saveAs } from 'file-saver';
+import copy from 'copy-to-clipboard';
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
@@ -72,16 +73,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     }
 
     const copyToClipboard = async (value) => {
-        try {
-        await navigator.clipboard.writeText(value)
-        } catch (err) {
-            const textArea = document.createElement("textarea")
-            textArea.value = value
-            document.body.appendChild(textArea)
-            textArea.select()
-            document.execCommand("copy")
-            document.body.removeChild(textArea)
-        }
+        copy(value);
     }
 
     const downloadEnvFile = () => {
