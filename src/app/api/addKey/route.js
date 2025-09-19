@@ -3,7 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
     const body = await request.json()
-    const {repoId,user_id,secrets} = body
+    const {repoId,user_id,secrets,repo_full_name} = body
+    if(!repo_full_name){
+        return NextResponse.json({message:"repoId e undefined sau e introdus gresit"},{status:400})
+    }
 
     if(!repoId){
         return NextResponse.json({message:"repoId e undefined sau e introdus gresit"},{status:400})
@@ -15,7 +18,7 @@ export async function POST(request) {
         return NextResponse.json({message:"nu sa introdus secrete correct sau e undefined/null"},{status:400})
     }
     try{
-        await addEnvVars(repoId, user_id, secrets)
+        await addEnvVars(repoId, user_id, secrets,repo_full_name)
         return NextResponse.json({ message: "Secrets adaugate cu succes" },{status:200});
     }catch(err){
         return NextResponse.json({message:err.message},{status:500})

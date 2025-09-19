@@ -14,21 +14,18 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { GitBranch, Copy,Trash2,EyeOff,Star,Eye, Plus, Key,Download } from "lucide-react"
-import { useQuery } from "@tanstack/react-query"
+import { GitBranch, Copy,Trash2,EyeOff,Eye, Plus, Key,Download } from "lucide-react"
 
-const handleAddKey = async (repoId,user_id,newKey) => {
-  const secrets = [{ key_name: newKey.key, value: newKey.value }]
+const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
+
   const res = await fetch('/api/addKey',{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({repoId,user_id,secrets})
+    body:JSON.stringify({repoId,user_id,secrets:newKey,repo_full_name:repositoryName})
   })
   if(!res.ok) return null
   return await res.json()
 }
-
-
 
 export default function KeysSection({repositoryName,repositoryId,userId}){
     const [envKeys, setEnvKeys] = useState([
@@ -141,7 +138,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         Cancel
                       </Button>
                       <Button onClick={async () => {
-                          const res = await handleAddKey(repositoryId,userId,newKey);
+                          const res = await handleAddKey(repositoryId,userId,newKey,repositoryName);
                           if (res) {
                             setNewKey({ key: "", value: "" });
                           }}}>Add Key</Button>

@@ -1,13 +1,13 @@
 import { decrypt } from "./crypto";
 import createClient from "@/utils/supabase/server";
 
-export async function getEnvVar(repo_id, key_name) {
+export async function getEnvVar(repo_full_name, key_name) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("env_vars")
     .select("*")
-    .eq("repo_id", repo_id)
+    .eq("repo_full_name", repo_full_name)
     .eq("key_name", key_name)
     .single();
 
@@ -19,5 +19,5 @@ export async function getEnvVar(repo_id, key_name) {
     tag: data.tag,
   });
 
-  return decrypted
+  return decrypted;
 }
