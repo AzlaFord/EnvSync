@@ -1,7 +1,7 @@
 import { decrypt } from "./crypto";
 import createClient from "@/utils/supabase/server";
 
-export async function getEnvVar(repo_id, key_name, user_id) {
+export async function getEnvVar(repo_id, key_name) {
   const supabase = await createClient();
 
   const { data, error } = await supabase

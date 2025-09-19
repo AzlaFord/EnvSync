@@ -111,13 +111,13 @@ export default function KeysSection({repositoryName,}){
                 </DialogTrigger>
                 )}
                 <DialogContent>
-                  <DialogHeader>
+                  <DialogHeader className=' ml-1 mb-1' >
                     <DialogTitle>Add Environment Key</DialogTitle>
                     <DialogDescription>Add a new environment variable for this repository.</DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="key">Key Name</Label>
+                      <Label className=' ml-1 mb-3' htmlFor="key">Key Name</Label>
                       <Input
                         id="key"
                         placeholder="e.g., DATABASE_URL"
@@ -126,7 +126,7 @@ export default function KeysSection({repositoryName,}){
                       />
                     </div>
                     <div>
-                      <Label htmlFor="value">Value</Label>
+                      <Label className='ml-1 mb-3' htmlFor="value">Value</Label>
                       <Input
                         id="value"
                         placeholder="Enter the value"
