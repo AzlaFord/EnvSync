@@ -21,5 +21,3 @@ export async function addEnvVars(repo_id, user_id, secret, repo_full_name) {
     throw error;
   }
 }
-
-

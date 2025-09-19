@@ -137,7 +137,7 @@ export function AppSidebar({
     queryKey: ['user'],
     queryFn: getDataUser,
   })
-  console.log("data",data)
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

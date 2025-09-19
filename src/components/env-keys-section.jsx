@@ -11,10 +11,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { GitBranch, Copy,Trash2,EyeOff,Eye, Plus, Key,Download } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye} from "lucide-react"
+
+const handleGetKeys = async (repo_full_name) =>{
+  const res = await fetch("/api/getKeys",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({repo_full_name})
+  })
+  const json = await res.json()
+  return json
+}
+
 
 const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
 
@@ -28,19 +39,16 @@ const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
 }
 
 export default function KeysSection({repositoryName,repositoryId,userId}){
-    const [envKeys, setEnvKeys] = useState([
-        {
-        id: "1",
-        key: "DATABASE_URL",
-        value: "postgresql://user:pass@localhost:5432/mydb1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
-        },
-        { id: "2", key: "API_SECRET_KEY", value: "sk_live_abc123def456ghi789" },
-        { id: "3", key: "REDIS_URL", value: "redis://localhost:6379" },
-    ])
+
     const [isAddingKey, setIsAddingKey] = useState(false)
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
-
+    console.log("repo name",repositoryName)
+    const {data:keys,error,isLoading} = useQuery({
+      queryKey:['keys', repositoryName],
+      queryFn: () => handleGetKeys(repositoryName)
+    })
+    console.log(keys?.data)
     const handleDeleteKey = (id) => {
         setEnvKeys(envKeys.filter((key) => key.id !== id))
         setVisibleKeys((prev) => {
@@ -94,7 +102,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
             </CardTitle>
             <div className="flex gap-2">
               <Dialog open={isAddingKey} onOpenChange={setIsAddingKey}>
-                {envKeys.length > 0?(
+                {keys?.data?.length > 0?(
                 <DialogTrigger asChild>
                   <Button size="sm">
                     <Plus className="h-4 w-4 mr-2" />
@@ -142,7 +150,6 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                           if (res) {
                             setNewKey({ key: "", value: "" });
                           }}}>Add Key</Button>
-
                     </div>
                   </div>
                 </DialogContent>
@@ -151,7 +158,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
           </div>
         </CardHeader>
         <CardContent>
-          {envKeys.length === 0 ? (
+          {keys?.data?.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Key className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p className="text-lg font-medium mb-2">No environment keys configured</p>
@@ -163,17 +170,17 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
             </div>
           ) : (
             <div className="space-y-3">
-              {envKeys.map((envKey) => (
-                <div key={envKey.id} className="flex items-end justify-between p-3 border rounded-lg">
+              {keys?.data?.map((key) => (
+                <div key={key.id} className="flex items-end justify-between p-3 border rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <code className="ml-2 font-mono text-sm font-semibold text-shadow-lg ">{envKey.key}</code>
+                      <code className="ml-2 font-mono text-sm font-semibold text-shadow-lg ">{key.key_name}</code>
                     </div>
                     <Separator className='my-2'/>
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
-                      {visibleKeys.has(envKey.id) ? <div className="  ml-1 bg-muted relative rounded pl-1 py-1 font-mono text-sm font-semibold border-2 border-dashed w-8/9 overflow-hidden">
+                      {visibleKeys.has(key.id) ? <div className="  ml-1 bg-muted relative rounded pl-1 py-1 font-mono text-sm font-semibold border-2 border-dashed w-8/9 overflow-hidden">
                       <p className="w-full min-w-20 truncate"> 
-                        {envKey.value}
+                        {key.value}
                       </p> 
                       </div>
                       : <div className="ml-1 bg-muted relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9">The key</div>}
@@ -181,15 +188,15 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => toggleKeyVisibility(envKey.id)}
+                          onClick={() => toggleKeyVisibility(key.id)}
                           className="text-muted-foreground hover:text-foreground"
                         >
-                        {visibleKeys.has(envKey.id) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {visibleKeys.has(key.id) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(envKey.value)}
+                          onClick={() => copyToClipboard(key.value)}
                           className="text-muted-foreground hover:text-foreground"
                         >
                           <Copy className="h-4 w-4" />
@@ -197,7 +204,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleDeleteKey(envKey.id)}
+                          onClick={() => handleDeleteKey(key.id)}
                           className="text-destructive hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -209,7 +216,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
               ))}
             </div>
           )}
-          {envKeys.length > 0 && (
+          {keys?.data?.length > 0 && (
             <Button variant="outline" className="flex justify-end mt-3 " size="sm" onClick={downloadEnvFile}>
               <Download className="h-4 w-4 mr-2" />
               Download .env
