@@ -94,12 +94,7 @@ export default function KeysSection({repositoryName,}){
               Environment Keys
             </CardTitle>
             <div className="flex gap-2">
-              {envKeys.length > 0 && (
-                <Button variant="outline" size="sm" onClick={downloadEnvFile}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download .env
-                </Button>
-              )}
+
               <Dialog open={isAddingKey} onOpenChange={setIsAddingKey}>
                 <DialogTrigger asChild>
                   <Button size="sm">
@@ -198,6 +193,12 @@ export default function KeysSection({repositoryName,}){
                 </div>
               ))}
             </div>
+          )}
+          {envKeys.length > 0 && (
+            <Button variant="outline" className="flex justify-end mt-3 " size="sm" onClick={downloadEnvFile}>
+              <Download className="h-4 w-4 mr-2" />
+              Download .env
+            </Button>
           )}
         </CardContent>
       </Card>

@@ -191,10 +191,6 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button>
-              <Code className="h-4 w-4 mr-2" />
-              View Env
-            </Button>
             <Button variant="outline">
               <AlertCircle className="h-4 w-4 mr-2" />
               Issues ({repo.openIssues})
