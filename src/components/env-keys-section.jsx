@@ -1,4 +1,5 @@
 'use client'
+import { saveAs } from 'file-saver';
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
@@ -39,16 +40,16 @@ const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
 }
 
 export default function KeysSection({repositoryName,repositoryId,userId}){
-
+    const [envKeys, setEnvKeys] = useState([])
     const [isAddingKey, setIsAddingKey] = useState(false)
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
-    console.log("repo name",repositoryName)
+
     const {data:keys,error,isLoading} = useQuery({
       queryKey:['keys', repositoryName],
       queryFn: () => handleGetKeys(repositoryName)
     })
-    console.log(keys?.data)
+    
     const handleDeleteKey = (id) => {
         setEnvKeys(envKeys.filter((key) => key.id !== id))
         setVisibleKeys((prev) => {
@@ -57,6 +58,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
         return newSet
         })
     }
+
     const toggleKeyVisibility = (id) => {
         setVisibleKeys((prev) => {
         const newSet = new Set(prev)
@@ -68,6 +70,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
         return newSet
         })
     }
+
     const copyToClipboard = async (value) => {
         try {
         await navigator.clipboard.writeText(value)
@@ -80,18 +83,14 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
             document.body.removeChild(textArea)
         }
     }
+
     const downloadEnvFile = () => {
-        const envContent = envKeys.map((key) => `${key.key}=${key.value}`).join("\n")
-        const blob = new Blob([envContent], { type: "text/plain" })
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = `${repositoryName}.env`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        URL.revokeObjectURL(url)
+      setEnvKeys(keys?.data)
+      const envContent = envKeys.map((key) => `${key.key_name}=${key.value}`).join("\n");
+      const blob = new Blob([envContent], { type: "text/plain;charset=utf-8" });
+      saveAs(blob, `${repositoryName}.env`);
     }
+
     return(<>
       <Card >
         <CardHeader>
