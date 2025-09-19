@@ -48,7 +48,7 @@ export default function Page() {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
               {selectedRepo ? (
-                <RepositoryDetails repositoryName={selectedRepo?.name} owner={selectedRepo.owner} onBack={() => setSelectedRepo(null)} />
+                <RepositoryDetails repositoryName={selectedRepo?.name} owner={selectedRepo.owner} userId={selectedRepo.userId}  onBack={() => setSelectedRepo(null)} />
               ) : (
                 <RepositoryTable onRepositoryClick={setSelectedRepo} value={value} sendToParent={setValue} />
               )}

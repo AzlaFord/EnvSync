@@ -58,7 +58,7 @@ export const getCommitCount = async (repo,userName) =>{
   return data
 }
 
-export function RepositoryDetails({ repositoryName,owner, onBack }) {
+export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
 
 
   const {data:countComits }= useQuery({
@@ -74,7 +74,9 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
     queryFn: () => getRepoData(owner,repositoryName),
     enabled: !!owner && !!repositoryName,
   })
+
   if (!repo) return <LoadingDetails/>
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -148,7 +150,6 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
               </div>
             </div>
 
-
             <div className="space-y-3">
               <h3 className="font-semibold flex items-center gap-2">
                 <Code className="h-4 w-4" />
@@ -180,8 +181,7 @@ export function RepositoryDetails({ repositoryName,owner, onBack }) {
           </div>
         </CardContent>
       </Card>
-
-            <KeysSection/>
+      <KeysSection repositoryName={repo.data?.full_name} repositoryId={repo.data?.id}  userId={userId} />
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

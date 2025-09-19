@@ -47,7 +47,6 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
         refetchOnMount: 'always',
         keepPreviousData: true,
     })
-
     if (isUserLoading) return <LoadingPage />;
 
     const pageInfo = repos?.data?.data?.user?.repositories?.pageInfo
@@ -110,8 +109,8 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                     <div>
                         <Button
                         variant="link"
-                        className="p-0 h-auto font-semibold text-left"
-                        onClick={() => onRepositoryClick( {name: repo.node.name, owner: repo.node.owner.login} )}
+                        className="p-0 h-auto font-semibold text-left" 
+                        onClick={() => onRepositoryClick( {name: repo.node.name, owner: repo.node.owner.login ,userId:user?.session?.user?.identities[0]?.identity_data?.provider_id} )}
                         >
                         {repo.node.name !=null ?repo.node.name:" "}
                         </Button>
@@ -143,7 +142,7 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                     </div>
                     </TableCell>
                     <TableCell className="text-right">
-                    <Button size="sm" onClick={() => onRepositoryClick({name: repo.node.name, owner: repo.node.owner.login})}>
+                    <Button size="sm" onClick={() => onRepositoryClick({name: repo.node.name, owner: repo.node.owner.login,userId:user?.session?.user?.identities[0]?.identity_data?.provider_id})}>
                         View Details
                     </Button>
                     </TableCell>

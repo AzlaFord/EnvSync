@@ -15,7 +15,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { GitBranch, Copy,Trash2,EyeOff,Star,Eye, Plus, Key,Download } from "lucide-react"
 
-export default function KeysSection({repositoryName,}){
+export default function KeysSection({repositoryName,repositoryId,userId}){
+  
     const [envKeys, setEnvKeys] = useState([
         {
         id: "1",
