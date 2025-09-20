@@ -25,15 +25,21 @@ export async function POST(request) {
         query:`
             {
             repository(owner: "${owner}", name: "${repoName}") {
-                defaultBranchRef {
-                name
-                target {
-                    ... on Commit {
-                    history {
-                        totalCount
-                    }
+                languages(first: 3){
+                    nodes {
+                        name
+                        color
                     }
                 }
+                defaultBranchRef {
+                    name
+                    target {
+                        ... on Commit {
+                        history {
+                            totalCount
+                        }
+                        }
+                    }
                 }
                 collaborators(first: 10) {
                     totalCount

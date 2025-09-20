@@ -98,16 +98,16 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
               </CardTitle>
               <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>
             </div>
-            <Badge variant="outline" className="text-sm">
+            <Badge variant="outline"  className="text-sm text-">
               {repo.data?.language}
             </Badge>
           </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2 mb-4">
-            {(repo.data?.topics || []).map((topic) => (
-              <Badge key={topic} variant="secondary" className="text-xs">
-                {topic}
+            {(dataRepo?.data?.repository?.languages?.nodes || []).map((topic) => (
+              <Badge key={topic.name} variant="secondary" className="text-xs ">
+                { topic?.name }
               </Badge>
             ))}
           </div>
