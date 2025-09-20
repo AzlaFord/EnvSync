@@ -78,7 +78,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
   if (!repo) return <LoadingDetails/>
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4">
         <Button variant="outline" size="sm" onClick={onBack}>
           <ArrowLeft className="h-4 w-4 mr-2" />
