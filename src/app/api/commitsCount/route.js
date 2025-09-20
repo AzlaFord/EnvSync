@@ -22,7 +22,8 @@ export async function POST(request) {
             Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
         },
         body: JSON.stringify({
-        query:`{
+        query:`
+            {
             repository(owner: "${owner}", name: "${repoName}") {
                 defaultBranchRef {
                 name
@@ -34,9 +35,28 @@ export async function POST(request) {
                     }
                 }
                 }
+                collaborators(first: 10) {
+                    totalCount
+                    edges {
+                        node {
+                        login
+                        name
+                        avatarUrl
+                        }
+                    }
+                }
+                issues(states: OPEN) {
+                    totalCount
+                }
+                pullRequests(states: OPEN) {
+                    totalCount
+                }
+                releases {
+                    totalCount
+                }
+                }
             }
-            }
-            }`
+        `
     })
     })
     if(!res.ok){

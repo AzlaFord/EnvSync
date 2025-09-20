@@ -61,13 +61,16 @@ export const getCommitCount = async (repo,userName) =>{
 export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
 
 
-  const {data:countComits }= useQuery({
+  const {data:dataRepo }= useQuery({
     queryKey:['colabs',owner],
     queryFn:()=> getCommitCount(repositoryName,owner),
     enabled: !! owner
   })
   
-  const commitsCount = countComits?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
+  console.log('coalbs',dataRepo?.data?.repository)
+
+
+  const commitsCount = dataRepo?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
 
   const { data: repo } = useQuery({
     queryKey: ['repos', owner,repositoryName],
@@ -166,15 +169,15 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
                 </div>
                 <div className="flex justify-between">
                   <span>Releases:</span>
-                  <span className="font-semibold">{repo.releases?repo.releases:"0"}</span>
+                  <span className="font-semibold">{dataRepo?.data?.repository?.releases?.totalCount||"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Open issues:</span>
-                  <span className="font-semibold text-orange-600">{repo?.openIssues||"0"}</span>
+                  <span className="font-semibold text-orange-600">{dataRepo?.data?.repository?.issues?.totalCount||"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Pull requests:</span>
-                  <span className="font-semibold text-blue-600">{repo.pullRequests?repo.pullRequests:"0"}</span>
+                  <span className="font-semibold text-blue-600">{dataRepo?.data?.repository?.pullRequests?.totalCount||"0"}</span>
                 </div>
               </div>
             </div>
@@ -193,11 +196,11 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
           <div className="flex flex-wrap gap-3">
             <Button variant="outline">
               <AlertCircle className="h-4 w-4 mr-2" />
-              Issues ({repo?.openIssues||"0"})
+              Issues ({dataRepo?.data?.repository?.issues?.totalCount ||"0"})
             </Button>
             <Button variant="outline">
               <User className="h-4 w-4 mr-2" />
-              Contributors ({repo.contributors||"1"})
+              Contributors ({dataRepo?.data?.repository?.collaborators?.edges?.length||"1"})
             </Button>
             <Button variant="outline" asChild>
               <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center">
