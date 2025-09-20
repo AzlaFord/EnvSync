@@ -3,46 +3,59 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
-@tailwind base;
-@tailwind components;
+
 @tailwind utilities;
+
+:root {
+  --color-dark: #353535;
+  --color-teal: #3c6e71;
+  --color-white: #ffffff;
+  --color-light-gray: #d9d9d9;
+  --color-dark-blue: #284b63;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Culori principale */
+  --color-background: var(--color-white);        /* fundal principal */
+  --color-foreground: var(--color-dark);         /* text principal */
+  --color-card: var(--color-light-gray);         /* carduri / secțiuni */
+  --color-card-foreground: var(--color-dark);    /* text card */
+  --color-popover: var(--color-light-gray);      /* popover background */
+  --color-popover-foreground: var(--color-dark); /* text popover */
+  --color-primary: var(--color-dark-blue);       /* butoane principale / elemente importante */
+  --color-primary-foreground: var(--color-white); /* text pe butoane principale */
+  --color-secondary: var(--color-teal);         /* elemente secundare */
+  --color-secondary-foreground: var(--color-white); /* text secundar */
+  --color-muted: var(--color-light-gray);        /* elemente subtile / background-uri secundare */
+  --color-muted-foreground: var(--color-dark);
+  --color-accent: var(--color-teal);            /* CTA, highlights */
+  --color-accent-foreground: var(--color-white);
+  --color-destructive: var(--color-dark-blue);  /* pentru alert / delete */
+  --color-border: var(--color-dark);            /* bordere generale */
+  --color-input: var(--color-white);            /* background input */
+  --color-ring: var(--color-teal);              /* focus ring / hover ring */
+
+  /* Chart colors */
+  --color-chart-1: var(--color-white);
+  --color-chart-2: var(--color-light-gray);
+  --color-chart-3: var(--color-teal);
+  --color-chart-4: var(--color-dark-blue);
+  --color-chart-5: var(--color-dark);
+
+  /* Sidebar */
+  --color-sidebar: var(--color-dark);                /* sidebar background */
+  --color-sidebar-foreground: var(--color-white);    /* text sidebar */
+  --color-sidebar-primary: var(--color-dark);        /* elemente principale sidebar */
+  --color-sidebar-primary-foreground: var(--color-white);
+  --color-sidebar-accent: var(--color-teal);         /* accents sidebar */
+  --color-sidebar-accent-foreground: var(--color-white);
+  --color-sidebar-border: var(--color-light-gray);   /* border sidebar */
+  --color-sidebar-ring: var(--color-teal);           /* hover/focus ring sidebar */
 }
 
 :root {

@@ -13,12 +13,12 @@ export function Platfrom({
 }) {
   const { isMobile } = useSidebar()
   return (
-    <SidebarMenu>
+    <SidebarMenu className="bg-[#3c6e71] rounded-[1vw]">
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" className="cursor-default">
           <div className="">
             <Image
-            className="flex aspect-square size-12 rounded-lg" 
+              className="flex aspect-square size-12 rounded-lg" 
               src="/file.svg" 
               alt="icon" 
               width={60}   
