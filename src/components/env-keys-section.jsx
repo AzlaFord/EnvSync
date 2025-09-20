@@ -169,12 +169,12 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                     </div>
                     <Separator className='my-2'/>
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
-                      {visibleKeys.has(key.id) ? <div className="  ml-1 bg-muted relative rounded pl-1 py-1 font-mono text-sm font-semibold border-2 border-dashed w-8/9 overflow-hidden">
+                      {visibleKeys.has(key.id) ? <div className="  ml-1 relative rounded pl-1 py-1 font-mono text-sm font-semibold border-2 border-dashed w-8/9 overflow-hidden bg-gray-500/16">
                       <p className="w-full min-w-20 truncate"> 
                         {key.value}
                       </p> 
                       </div>
-                      : <div className="ml-1 bg-muted relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9 pl-1">  Key Value</div>}
+                      : <div className="ml-1 bg-gray-500/16 relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9 pl-1">  Key Value</div>}
                       <div className="flex items-top gap-2">
                         <Button
                           variant="ghost"

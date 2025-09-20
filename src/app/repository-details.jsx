@@ -74,7 +74,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
     queryFn: () => getRepoData(owner,repositoryName),
     enabled: !!owner && !!repositoryName,
   })
-
+  console.log(repo)
   if (!repo) return <LoadingDetails/>
 
   return (
@@ -170,7 +170,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
                 </div>
                 <div className="flex justify-between">
                   <span>Open issues:</span>
-                  <span className="font-semibold text-orange-600">{repo.openIssues?repo.openIssues:"0"}</span>
+                  <span className="font-semibold text-orange-600">{repo?.openIssues||"0"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Pull requests:</span>
@@ -193,11 +193,11 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
           <div className="flex flex-wrap gap-3">
             <Button variant="outline">
               <AlertCircle className="h-4 w-4 mr-2" />
-              Issues ({repo.openIssues})
+              Issues ({repo?.openIssues||"0"})
             </Button>
             <Button variant="outline">
               <User className="h-4 w-4 mr-2" />
-              Contributors ({repo.contributors})
+              Contributors ({repo.contributors||"1"})
             </Button>
             <Button variant="outline" asChild>
               <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center">
