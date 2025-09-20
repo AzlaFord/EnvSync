@@ -66,9 +66,6 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
     queryFn:()=> getCommitCount(repositoryName,owner),
     enabled: !! owner
   })
-  
-  console.log('coalbs',dataRepo?.data?.repository)
-
 
   const commitsCount = dataRepo?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
 
@@ -77,7 +74,6 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
     queryFn: () => getRepoData(owner,repositoryName),
     enabled: !!owner && !!repositoryName,
   })
-  console.log(repo)
   if (!repo) return <LoadingDetails/>
 
   return (
