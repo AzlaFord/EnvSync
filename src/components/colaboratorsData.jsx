@@ -12,26 +12,24 @@ import {
 } from "@/components/ui/table"
 
 
-
-export default function DataColab(){
+export default function DataColab(colabs){
     return (<>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                <TableHead className="w-[100px]">Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
+    
+        <div className="grid grid-cols-7 gap-4 mt-3 ">
+            {colabs?.colabs?.map((colab) => (
+                <Card key={colab?.node?.name} className='h-12 pt-6 justify-center ' >
+                    <CardHeader className="flex items-center gap-4">
+                        <Avatar className="h-8 w-8 rounded-lg">
+                            <AvatarImage src={colab?.node?.avatarUrl} alt={name} />
+                            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                        </Avatar>
+                        <div className="grid flex-1 text-left text-sm leading-tight">
+                            <span className="truncate font-medium">{colab?.node?.login}</span>
+                            <span className="truncate text-xs">{colab?.node?.name}</span>
+                        </div>
+                    </CardHeader>
+                </Card>        
+            ))}
+        </div>
     </>)
 }

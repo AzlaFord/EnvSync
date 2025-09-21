@@ -50,6 +50,7 @@ export const getRepoData = async (userName,repo) =>{
   const data = await result.json()
   return data
 }
+
 export const getCommitCount = async (repo,userName) =>{
   const result = await fetch("/api/commitsCount",{
     method:"POST",
@@ -63,7 +64,7 @@ export const getCommitCount = async (repo,userName) =>{
 export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
 
   const [isOpenIssues,setIsOpenIssues] = useState(false)
-  const [isOpenColab,setIsOpenColab] = useState(false)
+  const [isOpenColab,setIsOpenColab] = useState(true)
 
   const {data:dataRepo }= useQuery({
     queryKey:['colabs',owner],
@@ -78,6 +79,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
     queryFn: () => getRepoData(owner,repositoryName),
     enabled: !!owner && !!repositoryName,
   })
+  console.log(dataRepo?.data?.repository?.collaborators?.edges)
   if (!repo) return <LoadingDetails/>
 
   return (
@@ -134,9 +136,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
               <span className="text-muted-foreground text-sm">size</span>
             </div>
           </div>
-          
           <Separator className="my-4" />
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
               <h3 className="font-semibold flex items-center gap-2">
@@ -165,7 +165,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
                 </div>
                 <div className="flex justify-between">
                   <span>Contributors:</span>
-                  <span className="font-semibold">{repo.contributors?repo.contributors:"1"}</span>
+                  <span className="font-semibold">{dataRepo?.data?.repository?.collaborators?.edges?.length||"1"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Releases:</span>
@@ -209,7 +209,8 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
               </a>
             </Button>
           </div>
-          {isOpenColab &&(<DataColab/>  )}
+          <Separator className="mt-2"></Separator>
+          {isOpenColab &&(<DataColab colabs={dataRepo?.data?.repository?.collaborators?.edges}/>  )}
           {isOpenIssues &&(<DataIssues/>) }
         </CardContent>
       </Card>
