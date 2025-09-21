@@ -180,7 +180,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                           variant="ghost"
                           size="sm"
                           onClick={() => toggleKeyVisibility(key.id)}
-                          className="text-muted-foreground hover:text-foreground"
+                          className="text-muted-foreground hover:text-foreground  ml-1"
                         >
                         {visibleKeys.has(key.id) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </Button>

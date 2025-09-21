@@ -1,12 +1,14 @@
 "use client"
+import DataIssues from "@/components/issuesData"
+import DataColab from "@/components/colaboratorsData"
 import LoadingDetails from "@/components/LoadingDetails"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle,CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
 import KeysSection from "@/components/env-keys-section"
-
+import { useState } from "react"
 import {
   ArrowLeft,
   GitBranch,
@@ -60,6 +62,8 @@ export const getCommitCount = async (repo,userName) =>{
 
 export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
 
+  const [isOpenIssues,setIsOpenIssues] = useState(false)
+  const [isOpenColab,setIsOpenColab] = useState(false)
 
   const {data:dataRepo }= useQuery({
     queryKey:['colabs',owner],
@@ -190,11 +194,11 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button variant="outline">
+            <Button variant="outline" onClick={()=>{setIsOpenIssues(prev => !prev), setIsOpenColab(false)}}>
               <AlertCircle className="h-4 w-4 mr-2" />
               Issues ({dataRepo?.data?.repository?.issues?.totalCount ||"0"})
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={()=>{setIsOpenColab(prev => !prev),setIsOpenIssues(false)}} >
               <User className="h-4 w-4 mr-2" />
               Contributors ({dataRepo?.data?.repository?.collaborators?.edges?.length||"1"})
             </Button>
@@ -205,6 +209,8 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
               </a>
             </Button>
           </div>
+          {isOpenColab &&(<DataColab/>  )}
+          {isOpenIssues &&(<DataIssues/>) }
         </CardContent>
       </Card>
     </div>
