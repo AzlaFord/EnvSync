@@ -144,3 +144,6 @@
   scrollbar-width: none;     /* Firefox */
 }
 
+.hover-chart-2:hover {
+  background-color:#3c6e71;
+}
