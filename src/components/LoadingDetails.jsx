@@ -16,6 +16,7 @@ import {
   Code,
   AlertCircle,
 } from "lucide-react"
+import EnvSkeleton from "./env-Keys-skeleton"
 
 export default function LoadingDetails(){
     return (<>
@@ -118,7 +119,7 @@ export default function LoadingDetails(){
           </div>
         </CardContent>
       </Card>
-
+      <EnvSkeleton/>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -128,10 +129,6 @@ export default function LoadingDetails(){
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button>
-              <Code className="h-4 w-4 mr-2" />
-              View Env
-            </Button>
             <Button variant="outline">
               <AlertCircle className="h-4 w-4 mr-2" />
               Issues 

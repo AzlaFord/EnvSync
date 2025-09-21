@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
 import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye} from "lucide-react"
+import EnvSkeleton from './env-Keys-skeleton'
 
 const handleGetKeys = async (repo_full_name) =>{
   const res = await fetch("/api/getKeys",{
@@ -46,10 +47,13 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
 
-    const {data:keys,error,isLoading} = useQuery({
+    const {data:keys,error,isLoading,isFetched} = useQuery({
       queryKey:['keys', repositoryName],
       queryFn: () => handleGetKeys(repositoryName)
     })
+    if(isLoading){
+      return <EnvSkeleton/>
+    }
     
     const handleDeleteKey = (id) => {
         setEnvKeys(envKeys.filter((key) => key.id !== id))
