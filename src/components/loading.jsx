@@ -13,8 +13,8 @@ export default function Loading(){
         <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
-            <GitBranch className="h-5 w-5" />
-            Repositories
+                <GitBranch className="h-5 w-5" />
+                Repositories
             </CardTitle>
             <CardDescription>Manage and explore your repositories</CardDescription>
         </CardHeader>
