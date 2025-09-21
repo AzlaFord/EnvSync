@@ -8,12 +8,12 @@ import { GitBranch, Star, GitFork, Clock } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 import LoadingPage from "./Loading"
+import { useRouter } from "next/navigation"
 
 export const getRepos = async ({ login, cursor = null, direction = "next", pageSize = 10 }) => {
   if (!login) return []
-
   const body = { login, cursor, direction, pageSize }
-
+  
   const res = await fetch("/api/repo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -30,7 +30,8 @@ export const getDataUser = async () =>{
 }
 
 export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
-
+    
+    const router = useRouter()
     const [cursor,setCursor] = useState(value)
     const [direction,setDirection] = useState('next')
     const { data: user, error: userError } = useQuery({
@@ -109,7 +110,7 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                         <Button
                         variant="link"
                         className="p-0 h-auto font-semibold text-left" 
-                        onClick={() => onRepositoryClick( {name: repo.node.name, owner: repo.node.owner.login ,userId:user?.session?.user?.identities[0]?.identity_data?.provider_id} )}
+                         onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&userId=${user?.session?.user?.identities[0]?.identity_data?.provider_id}`)}
                         >
                         {repo.node.name !=null ?repo.node.name:" "}
                         </Button>
@@ -120,10 +121,10 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                         <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
                     </TableCell>
                     <TableCell className="text-center">
-                    <div className="flex items-center justify-center gap-1">
-                        <Star className="h-4 w-4" />
-                        {repo.node.stargazerCount != null ? repo.node.stargazerCount.toLocaleString() : 0}
-                    </div>
+                        <div className="flex items-center justify-center gap-1">
+                            <Star className="h-4 w-4" />
+                            {repo.node.stargazerCount != null ? repo.node.stargazerCount.toLocaleString() : 0}
+                        </div>
                     </TableCell>
                     <TableCell className="text-center">
                     <div className="flex items-center justify-center gap-1">

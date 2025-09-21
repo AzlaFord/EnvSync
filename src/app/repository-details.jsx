@@ -42,7 +42,7 @@ function timeAgo(dateString) {
 }
 
 export const getRepoData = async (userName,repo) =>{
-  const result = await fetch("api/repoData",{
+  const result = await fetch("/api/repoData",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({ user: userName, repoName: repo })

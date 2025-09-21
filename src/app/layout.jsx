@@ -17,7 +17,6 @@ import {
 
 export default function Layout({ children }) {
   const [queryClient] = useState(() => new QueryClient());
-  const [selectedRepo, setSelectedRepo] = useState(null)
   const pathname = usePathname() 
   const segments = pathname.split('/').filter(Boolean) 
 
