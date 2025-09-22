@@ -10,19 +10,22 @@ import { useQuery } from "@tanstack/react-query"
 import KeysSection from "@/components/env-keys-section"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+
 import {
+  FolderGit,
+  Users,
+  FolderGit2,
   ArrowLeft,
-  GitBranch,
+  ChartNoAxesColumn,
   Star,
   GitFork,
   Eye,
   Download,
   Calendar,
-  User,
   FileText,
-  Code,
   AlertCircle,
 } from "lucide-react"
+
 import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 import { getDataUser } from "./repository-table"
@@ -130,7 +133,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
           <div className="flex items-start justify-between">
             <div>
               <CardTitle className="flex items-center gap-2 text-2xl">
-                <GitBranch className="h-6 w-6" />
+                <FolderGit className="h-6 w-6" />
                 {repo.data?.full_name}
               </CardTitle>
               <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>
@@ -190,7 +193,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
 
             <div className="space-y-3">
               <h3 className="font-semibold flex items-center gap-2">
-                <Code className="h-4 w-4" />
+                <ChartNoAxesColumn className="h-4 w-4" />
                 Activity
               </h3>
               <div className="space-y-2 text-sm">
@@ -234,12 +237,12 @@ export function RepositoryDetails({ repositoryName,owner }) {
               Issues ({dataRepo?.data?.repository?.issues?.totalCount ||"0"})
             </Button>
             <Button variant="outline" onClick={()=>{setIsOpenColab(prev => !prev),setIsOpenIssues(false)}} >
-              <User className="h-4 w-4 mr-2" />
+              <Users className="h-4 w-4 mr-2" />
               Contributors ({dataRepo?.data?.repository?.collaborators?.edges?.length||"1"})
             </Button>
             <Button variant="outline" asChild>
               <a href={repo.data?.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                <GitBranch className="h-4 w-4 mr-2" />
+                <FolderGit2 className="h-4 w-4 mr-2" />
                 Repository
               </a>
             </Button>

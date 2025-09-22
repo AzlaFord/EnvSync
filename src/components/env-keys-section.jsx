@@ -47,6 +47,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
     const [loadingAddKey,setLoadingAddKey] = useState(false)
+
     const {data:keys,error,isLoading,isFetched} = useQuery({
       queryKey:['keys', repositoryName],
       queryFn: () => handleGetKeys(repositoryName)
@@ -67,9 +68,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
       } finally {
         setLoadingAddKey(false)
       }
-    };
-
-
+    }
 
     const handleDeleteKey = (id) => {
         setEnvKeys(envKeys.filter((key) => key.id !== id))
