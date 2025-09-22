@@ -21,8 +21,8 @@ export default function DataColab(colabs){
                 <a key={colab?.node?.login} href={`https://github.com/${colab?.node?.login}`}>
                     <Card className='h-12 pt-6 justify-center hover-chart-2 transition-colors'  >
                         <CardHeader className="flex items-center gap-4">
-                            <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={colab?.node?.avatarUrl} alt={name} />
+                            <Avatar className="h-9 w-9 rounded-lg">
+                                <AvatarImage className="rounded-full" src={colab?.node?.avatarUrl} alt={name} />
                                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
