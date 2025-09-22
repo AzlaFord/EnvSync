@@ -27,20 +27,18 @@ export default function HomeLayout({children}){
                 <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
                     </BreadcrumbItem>
+                    <BreadcrumbSeparator/>
                     {segments.map((seg, idx) => {
                     const href = '/' + segments.slice(0, idx + 1).join('/')
                     const isLast = idx === segments.length - 1
                     return (
                         <BreadcrumbItem key={href}>
-                        <BreadcrumbSeparator/>
                         {isLast ? (
                             <BreadcrumbPage>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbPage>
                         ) : (
-                            
-                            <BreadcrumbLink href={href}>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbLink>
-                            
+                            <BreadcrumbLink className="flex" href={href}>{seg.charAt(0).toUpperCase() + seg.slice(1)} </BreadcrumbLink>
                         )}
                         </BreadcrumbItem>
                     )
