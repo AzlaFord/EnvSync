@@ -91,7 +91,7 @@ export function RepositoryDetails({ repositoryName,owner,userId }) {
   
   useEffect(()=>{
     if (access?.message === false) {
-      router.push(`/repositories?cursor=${cursor}`);
+      router.push(`/repositories`);
     }    
   },[access, router, cursor])
 
