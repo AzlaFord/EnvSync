@@ -3,6 +3,7 @@
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/app-sidebar'
 import { Separator } from "@/components/ui/separator"
+import {ChevronRight} from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -29,16 +30,21 @@ export default function HomeLayout({children}){
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/">Home</BreadcrumbLink>
                     </BreadcrumbItem>
-                    <BreadcrumbSeparator/>
                     {segments.map((seg, idx) => {
                     const href = '/' + segments.slice(0, idx + 1).join('/')
                     const isLast = idx === segments.length - 1
                     return (
                         <BreadcrumbItem key={href}>
                         {isLast ? (
-                            <BreadcrumbPage>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbPage>
+                            <div className='flex justify-center items-center'>
+                                <span aria-hidden="true" className="[&>svg]:size-3.5 mr-1 text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"> <ChevronRight/>  </span>
+                                <BreadcrumbPage>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbPage>
+                            </div>
                         ) : (
-                            <BreadcrumbLink className="flex" href={href}>{seg.charAt(0).toUpperCase() + seg.slice(1)} </BreadcrumbLink>
+                            <div className='flex justify-center items-center'>
+                                <span aria-hidden="true" className=" mr-1 [&>svg]:size-3.5 text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"> <ChevronRight/>  </span>
+                                <BreadcrumbLink className="flex" href={href}>{seg.charAt(0).toUpperCase() + seg.slice(1)} </BreadcrumbLink>
+                            </div>
                         )}
                         </BreadcrumbItem>
                     )
