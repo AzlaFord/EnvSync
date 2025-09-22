@@ -14,7 +14,7 @@ export async function POST(request) {
     if(!user_id){
         return NextResponse.json({message:"user id e undefined sau introdus gresit "},{status:400})
     }
-    if(!secrets){
+    if(!secrets.key ||!secrets.value){
         return NextResponse.json({message:"nu sa introdus secrete correct sau e undefined/null"},{status:400})
     }
     try{

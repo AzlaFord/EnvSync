@@ -46,15 +46,31 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     const [isAddingKey, setIsAddingKey] = useState(false)
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
-
+    const [loadingAddKey,setLoadingAddKey] = useState(false)
     const {data:keys,error,isLoading,isFetched} = useQuery({
       queryKey:['keys', repositoryName],
       queryFn: () => handleGetKeys(repositoryName)
     })
+
     if(isLoading){
       return <EnvSkeleton/>
     }
-    
+
+    const handleAddKeyReq = async (repositoryId, userId, newKey, repositoryName) => {
+      setLoadingAddKey(true)
+      try {
+        await handleAddKey(repositoryId, userId, newKey, repositoryName);
+        return true
+      } catch (err) {
+        console.error(err);
+        return false
+      } finally {
+        setLoadingAddKey(false)
+      }
+    };
+
+
+
     const handleDeleteKey = (id) => {
         setEnvKeys(envKeys.filter((key) => key.id !== id))
         setVisibleKeys((prev) => {
@@ -140,11 +156,11 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                       <Button variant="outline" onClick={() => setIsAddingKey(false)}>
                         Cancel
                       </Button>
-                      <Button onClick={async () => {
-                          const res = await handleAddKey(repositoryId,userId,newKey,repositoryName);
+                      <Button disabled={loadingAddKey} onClick={async () => {
+                          const res = await handleAddKeyReq(repositoryId,userId,newKey,repositoryName)
                           if (res) {
                             setNewKey({ key: "", value: "" });
-                          }}}>Add Key</Button>
+                          }}}>{!loadingAddKey?"Add Key":"Adding key"}</Button>
                     </div>
                   </div>
                 </DialogContent>

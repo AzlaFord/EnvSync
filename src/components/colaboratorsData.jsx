@@ -18,7 +18,7 @@ export default function DataColab(colabs){
 
         <div className="grid grid-cols-7 gap-4 mt-3 ">
             {colabs?.colabs?.map((colab) => (
-                <a key={colab?.node?.login} href={`https://github.com/${colab?.node?.login}`}>
+                <a key={colab?.node?.login} target="_blank" href={`https://github.com/${colab?.node?.login}`}>
                     <Card className='h-12 pt-6 justify-center hover-chart-2 transition-colors'  >
                         <CardHeader className="flex items-center gap-4">
                             <Avatar className="h-9 w-9 rounded-lg">
