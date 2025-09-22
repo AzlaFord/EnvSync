@@ -47,12 +47,12 @@ const data2 = {
           action: "repositories",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "Search",
+          url: "/search",
           action: "repositories",
         },
         {
-          title: "Watched",
+          title: "Starred",
           url: "#",
           action: "repositories",
         },

@@ -9,6 +9,8 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator
+
 } from "@/components/ui/breadcrumb"
 import { usePathname } from 'next/navigation'
 export default function HomeLayout({children}){
@@ -32,6 +34,7 @@ export default function HomeLayout({children}){
                     const isLast = idx === segments.length - 1
                     return (
                         <BreadcrumbItem key={href}>
+                        <BreadcrumbSeparator/>
                         {isLast ? (
                             <BreadcrumbPage>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbPage>
                         ) : (
