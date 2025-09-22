@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 import LoadingPage from "./Loading"
 import { useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 export const getRepos = async ({ login, cursor = null, direction = "next", pageSize = 10 }) => {
   if (!login) return []
@@ -29,25 +30,29 @@ export const getDataUser = async () =>{
   return data
 }
 
-export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
+export function RepositoryTable({ }) {
     
+    const searchParams = useSearchParams();
+    const cursor = searchParams.get("cursor")
     const router = useRouter()
-    const [cursor,setCursor] = useState(value)
-    const [direction,setDirection] = useState('next')
+    const direction = searchParams.get("direction") || "next"
     const { data: user, error: userError } = useQuery({
         queryKey: ['user'],
         queryFn: getDataUser,
     })
 
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
-    const { data: repos, isLoading: isUserLoading} = useQuery({
-        queryKey: ['repos', name,cursor,direction],
-        queryFn: () => getRepos({ login: name ,cursor,direction}),
+
+    const { data: repos, isLoading: isUserLoading } = useQuery({
+        queryKey: ['repos', name, cursor, direction],
+        queryFn: () => getRepos({ login: name, cursor, direction }),
         enabled: !!name, 
         refetchOnMount: 'always',
         keepPreviousData: true,
     })
-    if (isUserLoading) return <LoadingPage />;
+
+
+    if (isUserLoading) return <LoadingPage />
 
     const pageInfo = repos?.data?.data?.user?.repositories?.pageInfo
 
@@ -62,20 +67,14 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
         }
     }
     const nextPage = () => {
-        
         if (pageInfo?.endCursor) {
-            setDirection("next")
-            setCursor(pageInfo.endCursor)
-            sendToParent(pageInfo.endCursor)
+            router.push(`/repositories?cursor=${pageInfo.endCursor}&direction=next`);
         }
     }
 
     const prevPage = () => {
-        
         if (pageInfo?.startCursor) {
-            setDirection("prev")
-            setCursor(pageInfo.startCursor)
-            sendToParent(pageInfo.startCursor)
+            router.push(`/repositories?cursor=${pageInfo.startCursor}&direction=prev`);
         }
     }
 
@@ -127,19 +126,19 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                         </div>
                     </TableCell>
                     <TableCell className="text-center">
-                    <div className="flex items-center justify-center gap-1">
-                        <GitFork className="h-4 w-4" />
-                        {repo.node.forkCount != null ?repo.node.forkCount:"0" }
-                    </div>
+                        <div className="flex items-center justify-center gap-1">
+                            <GitFork className="h-4 w-4" />
+                            {repo.node.forkCount != null ?repo.node.forkCount:"0" }
+                        </div>
                     </TableCell>
                     <TableCell>
                         <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
                     </TableCell>
                     <TableCell>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        {repo.node.pushedAt ? new Date(repo.node.pushedAt).toLocaleDateString() : "N/A"}
-                    </div>
+                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                            <Clock className="h-4 w-4" />
+                            {repo.node.pushedAt ? new Date(repo.node.pushedAt).toLocaleDateString() : "N/A"}
+                        </div>
                     </TableCell>
                     <TableCell className="text-right">
                     <Button size="sm" onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}`)}>

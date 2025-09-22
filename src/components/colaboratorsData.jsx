@@ -14,7 +14,6 @@ import { Button } from "./ui/button"
 
 
 export default function DataColab(colabs){
-        console.log(colabs)
     return (<>
 
         <div className="grid grid-cols-7 gap-4 mt-3 ">
