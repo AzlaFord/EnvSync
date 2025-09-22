@@ -12,16 +12,17 @@ import { useRouter } from "next/navigation"
 import { useSearchParams } from "next/navigation"
 
 export const getRepos = async ({ login, cursor = null, direction = "next", pageSize = 10 }) => {
-  if (!login) return []
-  const body = { login, cursor, direction, pageSize }
-  
-  const res = await fetch("/api/repo", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  })
 
-  return res.json()
+    if (!login) return []
+    const body = { login, cursor, direction, pageSize }
+    
+    const res = await fetch("/api/repo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    })
+
+    return res.json()
 }
 
 export const getDataUser = async () =>{
