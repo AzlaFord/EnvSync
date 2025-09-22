@@ -25,6 +25,7 @@ export const getRepos = async ({ login, cursor = null, direction = "next", pageS
     return res.json()
 }
 
+
 export const getDataUser = async () =>{
   const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
@@ -106,16 +107,16 @@ export function RepositoryTable({ }) {
                 {(Array.isArray(repos?.data?.data?.user?.repositories?.edges) ? repos?.data?.data?.user?.repositories?.edges : []).map(repo => (
                 <TableRow key={repo.node.id} className="hover:bg-muted/50">
                     <TableCell>
-                    <div>
-                        <Button
-                        variant="link"
-                        className="p-0 h-auto font-semibold text-left" 
-                         onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}
-                        >
-                        {repo.node.name !=null ?repo.node.name:" "}
-                        </Button>
-                        <p className="text-sm text-muted-foreground mt-1">{repo.node.description?repo.node.description:"There is no description"}</p>
-                    </div>
+                        <div>
+                            <Button
+                            variant="link"
+                            className="p-0 h-auto font-semibold text-left" 
+                            onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}
+                            >
+                            {repo.node.name !=null ?repo.node.name:" "}
+                            </Button>
+                            <p className="text-sm text-muted-foreground mt-1">{repo.node.description?repo.node.description:"There is no description"}</p>
+                        </div>
                     </TableCell>
                     <TableCell>
                         <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>

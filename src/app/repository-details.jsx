@@ -24,7 +24,7 @@ import {
   AlertCircle,
 } from "lucide-react"
 import { useSearchParams } from "next/navigation"
-
+import { useEffect } from "react"
 
 function timeAgo(dateString) {
   const updatedAt = new Date(dateString)
@@ -64,6 +64,18 @@ export const getCommitCount = async (repo,userName) =>{
   return data
 }
 
+const hasAccess = async (repositoryName,owner) =>{
+    const res = await fetch("/api/access",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({repositoryName,owner})
+    })
+
+    const data = await res.json()
+
+    return data
+}
+
 export function RepositoryDetails({ repositoryName,owner,userId }) {
   
   const searchParams = useSearchParams();
@@ -72,22 +84,33 @@ export function RepositoryDetails({ repositoryName,owner,userId }) {
   const [isOpenColab,setIsOpenColab] = useState(true)
   const router = useRouter()
 
+  const { data: access } = useQuery({
+    queryKey: ["use", repositoryName, owner],
+    queryFn: () => hasAccess(repositoryName, owner),
+  })
+  
+  useEffect(()=>{
+    if (access?.message === false) {
+      router.push(`/repositories?cursor=${cursor}`);
+    }    
+  },[access, router, cursor])
+
   const {data:dataRepo }= useQuery({
     queryKey:['colabs',owner],
     queryFn:()=> getCommitCount(repositoryName,owner),
-    enabled: !! owner
+    enabled: !! owner && access?.message === true
   })
-
+  
   const commitsCount = dataRepo?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
 
   const { data: repo } = useQuery({
     queryKey: ['repos', owner,repositoryName],
     queryFn: () => getRepoData(owner,repositoryName),
-    enabled: !!owner && !!repositoryName,
+    enabled: !!owner && !!repositoryName && access?.message === true,
   })
-  console.log(dataRepo?.data?.repository?.collaborators?.edges)
-  if (!repo) return <LoadingDetails/>
 
+  if (!repo) return <LoadingDetails/>
+  
   return (
     <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4">
@@ -155,7 +178,7 @@ export function RepositoryDetails({ repositoryName,owner,userId }) {
                 <div>
                   Default branch: <Badge variant="outline">{repo.data?.default_branch}</Badge>
                 </div>
-                <div>License: {repo.data?.license?repo.data?.license:"No license"}</div>
+                <div>License: {repo.data?.license?.name || "No license"}</div>
               </div>
             </div>
 
