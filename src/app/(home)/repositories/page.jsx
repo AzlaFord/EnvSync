@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { RepositoryTable } from "../repository-table"
+import { RepositoryTable } from "@/app/repository-table"
 
 export default function RepositoriesPage() {
   const [selectedRepo, setSelectedRepo] = useState(null)
