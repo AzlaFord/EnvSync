@@ -114,7 +114,7 @@ export function RepositoryDetails({ repositoryName,owner,userId }) {
   return (
     <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" onClick={() => {router.push(`/repositories?cursor=${cursor}`)}}>
+        <Button variant="outline" size="sm" onClick={() => cursor === "null" ? router.push(`/repositories`) : router.push(`/repositories?cursor=${cursor}`)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>

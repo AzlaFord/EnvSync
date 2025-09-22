@@ -14,7 +14,7 @@ export async function POST(request) {
     const supabase = await createClient()
     const { data: userData } = await supabase.auth.getSession()
     const userLogin = userData?.session?.user?.identities[0]?.identity_data?.user_name
-    console.log("userLogin",userLogin)
+
     if (!userLogin) {
         return NextResponse.json({ message: "User nu e autentificat" }, { status: 401 })
     }
