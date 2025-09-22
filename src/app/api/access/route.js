@@ -12,12 +12,13 @@ export async function POST(request) {
         return NextResponse.json({ message: "Repo name e null" }, { status: 400 })
     }
     const supabase = await createClient()
-    const { data: userData } = await supabase.auth.getSession()
-    const userLogin = userData?.session?.user?.identities[0]?.identity_data?.user_name
-
-    if (!userLogin) {
+    const { data: { user }, error } = await supabase.auth.getUser()
+    
+    if (error || !user) {
         return NextResponse.json({ message: "User nu e autentificat" }, { status: 401 })
     }
+
+    const userLogin = user?.user_metadata?.user_name
 
     const collabRes = await fetch(
         `https://api.github.com/repos/${owner}/${repositoryName}/collaborators/${userLogin}`,
