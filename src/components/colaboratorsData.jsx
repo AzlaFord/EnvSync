@@ -14,11 +14,12 @@ import { Button } from "./ui/button"
 
 
 export default function DataColab(colabs){
+        console.log(colabs)
     return (<>
-    
+
         <div className="grid grid-cols-7 gap-4 mt-3 ">
             {colabs?.colabs?.map((colab) => (
-                <a key={colab?.node?.name} href={`https://github.com/${colab?.node?.login}`}>
+                <a key={colab?.node?.login} href={`https://github.com/${colab?.node?.login}`}>
                     <Card className='h-12 pt-6 justify-center hover-chart-2 transition-colors'  >
                         <CardHeader className="flex items-center gap-4">
                             <Avatar className="h-8 w-8 rounded-lg">

@@ -110,7 +110,7 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                         <Button
                         variant="link"
                         className="p-0 h-auto font-semibold text-left" 
-                         onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&userId=${user?.session?.user?.identities[0]?.identity_data?.provider_id}`)}
+                         onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}`)}
                         >
                         {repo.node.name !=null ?repo.node.name:" "}
                         </Button>
@@ -142,7 +142,7 @@ export function RepositoryTable({ onRepositoryClick,value=null,sendToParent }) {
                     </div>
                     </TableCell>
                     <TableCell className="text-right">
-                    <Button size="sm" onClick={() => onRepositoryClick({name: repo.node.name, owner: repo.node.owner.login,userId:user?.session?.user?.identities[0]?.identity_data?.provider_id})}>
+                    <Button size="sm" onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}`)}>
                         View Details
                     </Button>
                     </TableCell>

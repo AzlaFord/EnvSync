@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { useQuery } from "@tanstack/react-query"
 import KeysSection from "@/components/env-keys-section"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   ArrowLeft,
   GitBranch,
@@ -62,9 +63,9 @@ export const getCommitCount = async (repo,userName) =>{
 }
 
 export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
-
   const [isOpenIssues,setIsOpenIssues] = useState(false)
   const [isOpenColab,setIsOpenColab] = useState(true)
+  const router = useRouter()
 
   const {data:dataRepo }= useQuery({
     queryKey:['colabs',owner],
@@ -85,7 +86,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
   return (
     <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" onClick={onBack}>
+        <Button variant="outline" size="sm" onClick={() => {router.push('/repositories')}}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
