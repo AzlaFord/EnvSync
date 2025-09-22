@@ -28,7 +28,13 @@ const handleGetKeys = async (repo_full_name) =>{
   const json = await res.json()
   return json
 }
-
+async function hadleDeleteKey(id){
+  const res = await fetch("/api/deleteKey",{
+    method:"DELETE",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({id})
+  }) 
+}
 
 const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
 
@@ -70,14 +76,6 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
       }
     }
 
-    const handleDeleteKey = (id) => {
-        setEnvKeys(envKeys.filter((key) => key.id !== id))
-        setVisibleKeys((prev) => {
-        const newSet = new Set(prev)
-        newSet.delete(id)
-        return newSet
-        })
-    }
 
     const toggleKeyVisibility = (id) => {
         setVisibleKeys((prev) => {
@@ -214,7 +212,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleDeleteKey(key.id)}
+                          onClick={() => hadleDeleteKey(key.id)}
                           className="text-destructive hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />

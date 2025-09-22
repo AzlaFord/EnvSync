@@ -1,5 +1,4 @@
 "use client"
-import DataIssues from "@/components/issuesData"
 import DataColab from "@/components/colaboratorsData"
 import LoadingDetails from "@/components/LoadingDetails"
 import { Button } from "@/components/ui/button"
@@ -21,14 +20,12 @@ import {
   Eye,
   Download,
   Calendar,
-  FileText,
   Archive,
 } from "lucide-react"
 
 import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 import { getDataUser } from "./repository-table"
-
 
 function timeAgo(dateString) {
   const updatedAt = new Date(dateString)
@@ -117,14 +114,18 @@ export function RepositoryDetails({ repositoryName,owner }) {
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
 
-  if (!repo) return <LoadingDetails/>
+  if (!repo ) return <LoadingDetails/>
   
   return (
     <div className="space-y-6 overflow-auto ">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 justify-between" >
         <Button variant="outline" size="sm" onClick={() => cursor === "null" ? router.push(`/repositories`) : router.push(`/repositories?cursor=${cursor}`)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
+        </Button>
+        <Button variant='outline'  >
+          Save
+          <Star className="mr--1"  />
         </Button>
       </div>
       <Card>
