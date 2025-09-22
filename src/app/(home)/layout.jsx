@@ -35,7 +35,9 @@ export default function HomeLayout({children}){
                         {isLast ? (
                             <BreadcrumbPage>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbPage>
                         ) : (
+                            
                             <BreadcrumbLink href={href}>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbLink>
+                            
                         )}
                         </BreadcrumbItem>
                     )

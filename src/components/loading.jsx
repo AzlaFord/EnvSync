@@ -3,17 +3,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { GitBranch, Star, GitFork, Clock } from "lucide-react"
+import { FolderOpen, Star, GitFork, Clock } from "lucide-react"
 
 export default function Loading(){
     const skeletonRows = Array.from({ length: 10 }, (_, i) => i);
-
-
     return (<>
         <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
-                <GitBranch className="h-5 w-5" />
+                <FolderOpen className="h-5 w-5" />
                 Repositories
             </CardTitle>
             <CardDescription>Manage and explore your repositories</CardDescription>

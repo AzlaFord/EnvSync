@@ -1,10 +1,10 @@
 "use client"
-import { useState } from "react"
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { GitBranch, Star, GitFork, Clock } from "lucide-react"
+import { Star, GitFork, Clock,FolderOpen } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { createClient2 } from "@/utils/supabase/client"
 import LoadingPage from "./Loading"
@@ -85,7 +85,7 @@ export function RepositoryTable({ }) {
         <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
-            <GitBranch className="h-5 w-5" />
+            <FolderOpen className="h-5 w-5" />
             Repositories
             </CardTitle>
             <CardDescription>Manage and explore your repositories</CardDescription>

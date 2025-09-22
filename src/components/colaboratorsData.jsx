@@ -1,21 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle,CardFooter } from "@/components/ui/card"
+import { Card, CardHeader } from "@/components/ui/card"
 import { Avatar,AvatarFallback,AvatarImage } from "@radix-ui/react-avatar"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Button } from "./ui/button"
-
 
 export default function DataColab(colabs){
     return (<>
-
         <div className="grid grid-cols-7 gap-4 mt-3 ">
             {colabs?.colabs?.map((colab) => (
                 <a key={colab?.node?.login} target="_blank" href={`https://github.com/${colab?.node?.login}`}>

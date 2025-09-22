@@ -12,7 +12,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import {
-  FolderGit,
   Users,
   FolderGit2,
   ArrowLeft,
@@ -133,7 +132,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
           <div className="flex items-start justify-between">
             <div>
               <CardTitle className="flex items-center gap-2 text-2xl">
-                <FolderGit className="h-6 w-6" />
+                <FolderGit2 className="h-6 w-6" />
                 {repo.data?.full_name}
               </CardTitle>
               <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>

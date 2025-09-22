@@ -3,17 +3,18 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+
 import {
+  Users,
+  FolderGit2,
   ArrowLeft,
-  GitBranch,
+  ChartNoAxesColumn,
   Star,
   GitFork,
   Eye,
   Download,
   Calendar,
-  User,
   FileText,
-  Code,
   AlertCircle,
 } from "lucide-react"
 import EnvSkeleton from "./env-Keys-skeleton"
@@ -32,7 +33,7 @@ export default function LoadingDetails(){
           <div className="flex items-start justify-between">
             <div>
               <CardTitle className="flex items-center gap-2 text-2xl">
-                <GitBranch className="h-6 w-6" />
+                <FolderGit2 className="h-6 w-6" />
                 <Skeleton className="ml-1 h-6 w-[70px]"/>
               </CardTitle>
               <CardDescription className="mt-2 text-base"><Skeleton className="ml-1 h-4 w-[200px]"/></CardDescription>
@@ -90,7 +91,7 @@ export default function LoadingDetails(){
 
             <div className="space-y-3">
               <h3 className="font-semibold flex items-center gap-2">
-                <Code className="h-4 w-4" />
+                <ChartNoAxesColumn className="h-4 w-4" />
                 Activity
               </h3>
               <div className="space-y-2 text-sm">
@@ -134,11 +135,11 @@ export default function LoadingDetails(){
               Issues 
             </Button>
             <Button variant="outline">
-              <User className="h-4 w-4 mr-2" />
+              <Users className="h-4 w-4 mr-2" />
               Contributors 
             </Button>
             <Button variant="outline"  >
-              <GitBranch className="h-4 w-4 mr-2" />
+              <FolderGit2 className="h-4 w-4 mr-2" />
               <a target="_blank" rel="noopener noreferrer">
                 Repository
               </a>
