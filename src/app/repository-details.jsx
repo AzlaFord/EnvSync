@@ -22,7 +22,7 @@ import {
   Download,
   Calendar,
   FileText,
-  AlertCircle,
+  Archive,
 } from "lucide-react"
 
 import { useSearchParams } from "next/navigation"
@@ -225,16 +225,12 @@ export function RepositoryDetails({ repositoryName,owner }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
+            <Archive className="h-5 w-5" />
             Quick Actions
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button variant="outline" onClick={()=>{setIsOpenIssues(prev => !prev), setIsOpenColab(false)}}>
-              <AlertCircle className="h-4 w-4 mr-2" />
-              Issues ({dataRepo?.data?.repository?.issues?.totalCount ||"0"})
-            </Button>
             <Button variant="outline" onClick={()=>{setIsOpenColab(prev => !prev),setIsOpenIssues(false)}} >
               <Users className="h-4 w-4 mr-2" />
               Contributors ({dataRepo?.data?.repository?.collaborators?.edges?.length||"1"})
@@ -248,7 +244,6 @@ export function RepositoryDetails({ repositoryName,owner }) {
           </div>
           <Separator className="mt-2"></Separator>
           {isOpenColab &&(<DataColab colabs={dataRepo?.data?.repository?.collaborators?.edges}/>  )}
-          {isOpenIssues &&(<DataIssues/>) }
         </CardContent>
       </Card>
     </div>
