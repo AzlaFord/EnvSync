@@ -44,7 +44,7 @@ export function RepositoryTable({ }) {
     })
 
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
-
+    
     const { data: repos, isLoading: isUserLoading } = useQuery({
         queryKey: ['repos', name, cursor, direction],
         queryFn: () => getRepos({ login: name, cursor, direction }),

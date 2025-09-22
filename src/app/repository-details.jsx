@@ -25,6 +25,8 @@ import {
 } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
+import { getDataUser } from "./repository-table"
+
 
 function timeAgo(dateString) {
   const updatedAt = new Date(dateString)
@@ -76,8 +78,12 @@ const hasAccess = async (repositoryName,owner) =>{
     return data
 }
 
-export function RepositoryDetails({ repositoryName,owner,userId }) {
-  
+export function RepositoryDetails({ repositoryName,owner }) {
+  const { data: user, error: userError } = useQuery({
+    queryKey: ['user'],
+    queryFn: getDataUser,
+  })
+  const userId = user?.session?.user?.identities[0]?.identity_data?.provider_id
   const searchParams = useSearchParams();
   const cursor = searchParams.get("cursor")
   const [isOpenIssues,setIsOpenIssues] = useState(false)
