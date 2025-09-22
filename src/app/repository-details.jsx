@@ -23,6 +23,8 @@ import {
   Code,
   AlertCircle,
 } from "lucide-react"
+import { useSearchParams } from "next/navigation"
+
 
 function timeAgo(dateString) {
   const updatedAt = new Date(dateString)
@@ -62,7 +64,10 @@ export const getCommitCount = async (repo,userName) =>{
   return data
 }
 
-export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
+export function RepositoryDetails({ repositoryName,owner,userId }) {
+  
+  const searchParams = useSearchParams();
+  const cursor = searchParams.get("cursor")
   const [isOpenIssues,setIsOpenIssues] = useState(false)
   const [isOpenColab,setIsOpenColab] = useState(true)
   const router = useRouter()
@@ -86,7 +91,7 @@ export function RepositoryDetails({ repositoryName,owner,userId, onBack }) {
   return (
     <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" onClick={() => {router.push('/repositories')}}>
+        <Button variant="outline" size="sm" onClick={() => {router.push(`/repositories?cursor=${cursor}`)}}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>

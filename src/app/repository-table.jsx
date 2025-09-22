@@ -109,7 +109,7 @@ export function RepositoryTable({ }) {
                         <Button
                         variant="link"
                         className="p-0 h-auto font-semibold text-left" 
-                         onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}`)}
+                         onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}
                         >
                         {repo.node.name !=null ?repo.node.name:" "}
                         </Button>
@@ -141,7 +141,7 @@ export function RepositoryTable({ }) {
                         </div>
                     </TableCell>
                     <TableCell className="text-right">
-                    <Button size="sm" onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}`)}>
+                    <Button size="sm" onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}>
                         View Details
                     </Button>
                     </TableCell>
