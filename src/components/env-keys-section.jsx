@@ -28,16 +28,9 @@ const handleGetKeys = async (repo_full_name) =>{
   const json = await res.json()
   return json
 }
-async function hadleDeleteKey(id){
-  const res = await fetch("/api/deleteKey",{
-    method:"DELETE",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({id})
-  }) 
-}
 
 const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
-
+  
   const res = await fetch('/api/addKey',{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -49,56 +42,64 @@ const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
 }
 
 export default function KeysSection({repositoryName,repositoryId,userId}){
-    const [envKeys, setEnvKeys] = useState([])
-    const [isAddingKey, setIsAddingKey] = useState(false)
-    const [newKey, setNewKey] = useState({ key: "", value: "" })
-    const [visibleKeys, setVisibleKeys] = useState(new Set())
-    const [loadingAddKey,setLoadingAddKey] = useState(false)
-    const [key,setNewKeyDone] = useState(false)
-
-    const {data:keys,error,isLoading,isFetched} = useQuery({
-      queryKey:['keys', repositoryName,key],
-      queryFn: () => handleGetKeys(repositoryName)
+  const [envKeys, setEnvKeys] = useState([])
+  const [isAddingKey, setIsAddingKey] = useState(false)
+  const [newKey, setNewKey] = useState({ key: "", value: "" })
+  const [visibleKeys, setVisibleKeys] = useState(new Set())
+  const [loadingAddKey,setLoadingAddKey] = useState(false)
+  const [key,setNewKeyDone] = useState(false)
+  
+  const {data:keys,error,isLoading,isFetched} = useQuery({
+    queryKey:['keys', repositoryName,key],
+    queryFn: () => handleGetKeys(repositoryName)
+  })
+  
+  if(isLoading){
+    return <EnvSkeleton/>
+  }
+  
+  const handleAddKeyReq = async (repositoryId, userId, newKey, repositoryName) => {
+    setLoadingAddKey(true)
+    try {
+      await handleAddKey(repositoryId, userId, newKey, repositoryName);
+      setNewKeyDone(prev => !prev)
+      return true
+    } catch (err) {
+      console.error(err);
+      return false
+    } finally {
+      setLoadingAddKey(false)
+    }
+  }
+  
+  async function hadleDeleteKey(id){
+    const res = await fetch("/api/deleteKey",{
+      method:"DELETE",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({id})
     })
-
-    if(isLoading){
-      return <EnvSkeleton/>
-    }
-
-    const handleAddKeyReq = async (repositoryId, userId, newKey, repositoryName) => {
-      setLoadingAddKey(true)
-      try {
-        await handleAddKey(repositoryId, userId, newKey, repositoryName);
-        setNewKeyDone(prev => !prev)
-        return true
-      } catch (err) {
-        console.error(err);
-        return false
-      } finally {
-        setLoadingAddKey(false)
-      }
-    }
-
-
-    const toggleKeyVisibility = (id) => {
-        setVisibleKeys((prev) => {
-        const newSet = new Set(prev)
+    setNewKeyDone(prev => !prev) 
+  }
+  
+  const toggleKeyVisibility = (id) => {
+    setVisibleKeys((prev) => {
+      const newSet = new Set(prev)
         if (newSet.has(id)) {
             newSet.delete(id)
         } else {
             newSet.add(id)
-        }
-        return newSet
+          }
+          return newSet
         })
-    }
-
-    const copyToClipboard = async (value) => {
-      copy(value);
-    }
-
-    const downloadEnvFile = () => {
-      setEnvKeys(keys?.data)
-      const envContent = envKeys.map((key) => `${key.key_name}=${key.value}`).join("\n");
+      }
+      
+      const copyToClipboard = async (value) => {
+        copy(value);
+      }
+      
+      const downloadEnvFile = () => {
+        setEnvKeys(keys?.data)
+        const envContent = envKeys.map((key) => `${key.key_name}=${key.value}`).join("\n");
       const blob = new Blob([envContent], { type: "text/plain;charset=utf-8" });
       saveAs(blob, `${repositoryName}.env`);
     }
