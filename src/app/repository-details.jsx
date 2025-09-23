@@ -86,7 +86,6 @@ export function RepositoryDetails({ repositoryName,owner }) {
   const userId = user?.session?.user?.identities[0]?.identity_data?.provider_id
   const searchParams = useSearchParams();
   const cursor = searchParams.get("cursor")
-  const [isOpenIssues,setIsOpenIssues] = useState(false)
   const [isOpenColab,setIsOpenColab] = useState(true)
   const router = useRouter()
 
