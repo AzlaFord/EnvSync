@@ -37,7 +37,7 @@ export default function HomeLayout({children}){
                         <BreadcrumbItem key={href}>
                         {isLast ? (
                             <div className='flex justify-center items-center'>
-                                <span aria-hidden="true" className="[&>svg]:size-3.5 mr-1 text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"> <ChevronRight/>  </span>
+                                <span aria-hidden="true" className="[&>svg]:size-3.5 mr-1f text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"> <ChevronRight/>  </span>
                                 <BreadcrumbPage>{seg.charAt(0).toUpperCase() + seg.slice(1)}</BreadcrumbPage>
                             </div>
                         ) : (
