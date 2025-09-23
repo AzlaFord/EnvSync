@@ -44,6 +44,7 @@ const handleAddKey = async (repoId,user_id,newKey,repositoryName) => {
     body:JSON.stringify({repoId,user_id,secrets:newKey,repo_full_name:repositoryName})
   })
   if(!res.ok) return null
+  
   return await res.json()
 }
 
@@ -53,9 +54,10 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     const [newKey, setNewKey] = useState({ key: "", value: "" })
     const [visibleKeys, setVisibleKeys] = useState(new Set())
     const [loadingAddKey,setLoadingAddKey] = useState(false)
+    const [key,setNewKeyDone] = useState(false)
 
     const {data:keys,error,isLoading,isFetched} = useQuery({
-      queryKey:['keys', repositoryName],
+      queryKey:['keys', repositoryName,key],
       queryFn: () => handleGetKeys(repositoryName)
     })
 
@@ -67,6 +69,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
       setLoadingAddKey(true)
       try {
         await handleAddKey(repositoryId, userId, newKey, repositoryName);
+        setNewKeyDone(prev => !prev)
         return true
       } catch (err) {
         console.error(err);
@@ -157,7 +160,9 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                           const res = await handleAddKeyReq(repositoryId,userId,newKey,repositoryName)
                           if (res) {
                             setNewKey({ key: "", value: "" });
-                          }}}>{!loadingAddKey?"Add Key":"Adding key"}</Button>
+                          }
+                          }}>{!loadingAddKey?"Add Key" :"Adding key"}</Button>
+
                     </div>
                   </div>
                 </DialogContent>
