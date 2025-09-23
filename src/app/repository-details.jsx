@@ -82,6 +82,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
     queryKey: ['user'],
     queryFn: getDataUser,
   })
+
   const userId = user?.session?.user?.identities[0]?.identity_data?.provider_id
   const searchParams = useSearchParams();
   const cursor = searchParams.get("cursor")
@@ -119,13 +120,13 @@ export function RepositoryDetails({ repositoryName,owner }) {
   return (
     <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4 justify-between" >
-        <Button variant="outline" size="sm" onClick={() => cursor === "null" ? router.push(`/repositories`) : router.push(`/repositories?cursor=${cursor}`)}>
+        <Button variant="outline" size="sm" onClick={() => cursor === "null" || cursor==null   ? router.push(`/repositories`) : router.push(`/repositories?cursor=${cursor}`)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
-        <Button variant='outline'  >
+        <Button variant='outline'>
           Save
-          <Star className="mr--1"  />
+          <Star className="mr-1"  />
         </Button>
       </div>
       <Card>

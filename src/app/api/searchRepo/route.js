@@ -21,7 +21,7 @@ export async function POST(request) {
 
   const query = `
     query($queryString: String!) {
-      search(query: $queryString, type: REPOSITORY, first: 10) {
+      search(query: $queryString, type: REPOSITORY, first: 6) {
         edges {
           node {
             ... on Repository {
