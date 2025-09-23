@@ -53,3 +53,4 @@ export async function POST(req) {
   const data = await res.json()
   return NextResponse.json({ message: "a mers totul bine", data }, { status: 200 })
 }
+

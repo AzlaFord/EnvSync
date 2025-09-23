@@ -1,13 +1,13 @@
 export async function POST(request){
     const body = await request.json()
     const {user,repoName} = body 
-    if(!user){
+    if(!user || user.length == 0){
         return new Response(JSON.stringify({message:"user e undefined"}),{
             status:400,
             headers:{"Content-Type":"application/json"}
         })
     }
-    if(!repoName){
+    if(!repoName || repoName.length == 0){
         return new Response(JSON.stringify({message:"repoName e undefined"}),{
             status:400,
             headers:{"Content-Type":"application/json"}
@@ -18,7 +18,6 @@ export async function POST(request){
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         Accept: "application/vnd.github.mercy-preview+json"
         },
-        cache: "no-store",
     })
     if(!res.ok){
         return new Response(JSON.stringify({message:"resultatul e undefined ceva nu a mers bine"}),{
