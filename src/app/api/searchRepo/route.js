@@ -21,7 +21,7 @@ export async function POST(request) {
 
   const query = `
     query($queryString: String!) {
-      search(query: $queryString, type: REPOSITORY, first: 6) {
+      search(query: $queryString, type: REPOSITORY, first:4) {
         edges {
           node {
             ... on Repository {
@@ -29,6 +29,11 @@ export async function POST(request) {
               name
               owner { login }
               description
+              languages(first:4){
+                nodes{
+                    name
+                }
+              }
               primaryLanguage { name }
             }
           }

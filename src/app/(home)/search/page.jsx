@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import {FolderSearch,ArrowRight} from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle,CardAction, CardDescription } from "@/components/ui/card"
 import debounce from "lodash.debounce"
 import { useState } from "react"
@@ -58,18 +59,31 @@ export default function SearchPage(){
                     <CardHeader>
                         <CardTitle>
                             <li>
-                                <div>{repo?.node?.name}</div>
+                                <Button variant="link" className="p-0 h-auto font-semibold" 
+                                onClick = {() =>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}`)}}
+                                >
+                                    <h3 className="scroll-m-20 text-xl md:text-2xl font-semibold tracking-tight">
+                                        {repo?.node?.name}
+                                    </h3>
+                                </Button>
                             </li>                        
                         </CardTitle>
                         <CardAction>
                             <Button onClick={()=>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}`)}}>
-                                <ArrowRight color="white"/>
+                                Details<ArrowRight color="white"/>
                             </Button>
                         </CardAction>
                         <CardDescription>
-                            {repo?.node?.description}
+                            {repo?.node?.description || "There is no description"}
                         </CardDescription>
                     </CardHeader>
+                    <CardContent>
+                        <div>
+                            {(repo?.node?.languages?.nodes || []).map(lang =>(
+                                <Badge className="ml-1" key={lang?.name} variant="default">{lang?.name||"N/A"}</Badge>
+                            ))}
+                        </div>
+                    </CardContent>
                 </Card>
                 
                 ))}
