@@ -10,6 +10,8 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
 import { Separator } from "@/components/ui/separator"
+import LoadingSearch from "@/components/loading_search"
+
 const searchRepo = async (query) => {
     if (!query) return { items: [] }
 
@@ -29,7 +31,7 @@ const searchRepo = async (query) => {
 export default function SearchPage(){
     const router = useRouter()
     const [query,setQuery] = useState("")
-    const {data:repos,refetch,isFetching } = useQuery({
+    const {data:repos,refetch,isFetching,isLoading } = useQuery({
         queryKey:['search',query],
         queryFn:() => searchRepo(query),
         enabled: false 
@@ -51,7 +53,8 @@ export default function SearchPage(){
             </div>
         </div>
         <Separator className='w-full sm:w-1/2 md:w-1/3 ml-1 mr-1'/>
-        {isFetching && <p>Loading...</p>}
+        {query.length === 0 && <h1 className="flex justify-center scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">Start searching ...</h1>}
+        {isLoading && <LoadingSearch/>}
         <div className="ml-1  w-full flex justify-center ">
             <ul className="ml-1  w-full  md:w-1/2 rounded-2xl grid grid-cols-1 gap-2">
                 {(repos?.data?.data?.search?.edges || []).map(repo => (
@@ -62,9 +65,9 @@ export default function SearchPage(){
                                 <Button variant="link" className="p-0 h-auto font-semibold" 
                                 onClick = {() =>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}`)}}
                                 >
-                                    <h3 className="scroll-m-20 text-xl md:text-2xl font-semibold tracking-tight">
+                                    <h4 className="scroll-m-20  md:text-2xl font-semibold tracking-tight">
                                         {repo?.node?.name}
-                                    </h3>
+                                    </h4>
                                 </Button>
                             </li>                        
                         </CardTitle>
