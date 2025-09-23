@@ -115,12 +115,24 @@ export function RepositoryDetails({ repositoryName,owner }) {
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
 
+  const handleBackTo = (cursor) => {
+    if (cursor === "Search") {
+      return router.push("/search")
+    }
+
+    if (!cursor || cursor === "null") {
+      return router.push("/repositories")
+    }
+
+    return router.push(`/repositories?cursor=${cursor}`)
+  }
+
   if (!repo ) return <LoadingDetails/>
   
   return (
     <div className="space-y-6 overflow-auto ">
       <div className="flex items-center gap-4 justify-between" >
-        <Button variant="outline" size="sm" onClick={() => cursor === "null" || cursor==null   ? router.push(`/repositories`) : router.push(`/repositories?cursor=${cursor}`)}>
+        <Button variant="outline" size="sm" onClick={() => handleBackTo(cursor)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>

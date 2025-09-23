@@ -53,14 +53,9 @@ const data2 = {
         },
         {
           title: "Starred",
-          url: "#",
+          url: "/starred",
           action: "repositories",
-        },
-        {
-          title: "Archived",
-          url: "#",
-          action: "repositories",
-        },
+        }
       ],
     },
     // {
@@ -87,29 +82,6 @@ const data2 = {
     //     },
     //   ],
     // },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Access",
-          url: "#",
-        },
-        {
-          title: "Security",
-          url: "#",
-        },
-        {
-          title: "Webhooks",
-          url: "#",
-        },
-      ],
-    },
   ],
   projects: [
     {

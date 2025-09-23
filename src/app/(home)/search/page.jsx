@@ -63,7 +63,7 @@ export default function SearchPage(){
                         <CardTitle>
                             <li>
                                 <Button variant="link" className="p-0 h-auto font-semibold" 
-                                onClick = {() =>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}`)}}
+                                onClick = {() =>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}&cursor=Search`)}}
                                 >
                                     <h4 className="scroll-m-20  md:text-2xl font-semibold tracking-tight">
                                         {repo?.node?.name}
@@ -72,7 +72,7 @@ export default function SearchPage(){
                             </li>                        
                         </CardTitle>
                         <CardAction>
-                            <Button onClick={()=>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}`)}}>
+                            <Button onClick={()=>{router.push(`/repositories/${repo?.node?.name}?owner=${repo?.node?.owner?.login}&cursor=Search`)}}>
                                 Details<ArrowRight color="white"/>
                             </Button>
                         </CardAction>
