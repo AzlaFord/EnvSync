@@ -14,5 +14,5 @@ export async function POST(request) {
         return NextResponse.json({message:"a mers totul bine "},{status:201})
     }catch(err){
         return NextResponse.json({message:err.message},{status:500})
-    }   
+    }
 }

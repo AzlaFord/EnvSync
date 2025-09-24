@@ -65,6 +65,18 @@ export const getCommitCount = async (repo,userName) =>{
   return data
 }
 
+export const addToFavorites = async (repo_id,repo_name,language,owner) =>{
+  try{
+    await fetch("/api/addFavorite",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({repo_id,repo_name,language,owner})
+    })
+  }catch(err){
+    throw err
+  }
+}
+
 const hasAccess = async (repositoryName,owner) =>{
     const res = await fetch("/api/access",{
       method:"POST",
@@ -114,6 +126,8 @@ export function RepositoryDetails({ repositoryName,owner }) {
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
 
+  console.log(repo)
+
   const handleBackTo = (cursor) => {
     if (cursor === "Search") {
       return router.push("/search")
@@ -135,7 +149,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
-        <Button variant='outline'>
+        <Button variant='outline' onClick={()=>{addToFavorites(repo.data?.id,repo.data?.name,repo.data?.language,repo?.data?.owner?.login)}}>
           Save
           <Star className="mr-1"  />
         </Button>
