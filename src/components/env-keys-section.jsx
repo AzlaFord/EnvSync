@@ -62,23 +62,28 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
     setLoadingAddKey(true)
     try {
       await handleAddKey(repositoryId, userId, newKey, repositoryName);
-      setNewKeyDone(prev => !prev)
       return true
     } catch (err) {
       console.error(err);
       return false
     } finally {
+      setNewKeyDone(prev => !prev)
       setLoadingAddKey(false)
     }
   }
   
   async function hadleDeleteKey(id){
-    const res = await fetch("/api/deleteKey",{
-      method:"DELETE",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({id})
-    })
-    setNewKeyDone(prev => !prev) 
+    try{
+      const res = await fetch("/api/deleteKey",{
+        method:"DELETE",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({id})
+      })
+    }catch(err){
+      console.log(err)
+    }finally{
+      setNewKeyDone(prev => !prev) 
+    }
   }
   
   const toggleKeyVisibility = (id) => {
@@ -99,9 +104,9 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
       
       const downloadEnvFile = () => {
         setEnvKeys(keys?.data)
-        const envContent = envKeys.map((key) => `${key.key_name}=${key.value}`).join("\n");
-      const blob = new Blob([envContent], { type: "text/plain;charset=utf-8" });
-      saveAs(blob, `${repositoryName}.env`);
+        const envContent = envKeys.map((key) => `${key.key_name}=${key.value}`).join("\n")
+        const blob = new Blob([envContent], { type: "text/plain;charset=utf-8" })
+        saveAs(blob, `${repositoryName}.env`)
     }
 
     return(<>
@@ -183,7 +188,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
             </div>
           ) : (
             <div className="space-y-3">
-              {keys?.data?.map((key) => (
+              {(keys?.data || []).map((key) => (
                 <div key={key.id} className="flex items-end justify-between p-3 border rounded-lg">
                   <div className="flex-1">
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
@@ -202,7 +207,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(key.value)}
+                          onClick={() => copyToClipboard(`${key.key_name}=${key.value} `)}
                           className="text-muted-foreground hover:text-foreground"
                         >
                           <Copy className="h-4 w-4" />
