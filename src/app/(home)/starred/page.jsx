@@ -37,7 +37,7 @@ export default function StarredPage(){
         <div className="w-full flex justify-center items-center ">
             <div className="grid grid-cols-1  max-md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 w-full  gap-3">
                 {(repos?.repos||[]).map(repo=>(
-                <Card key={repo?.repo_name} className=" flex justify-center " >
+                <Card key={repo?.id} className=" flex justify-center " >
                     <CardHeader>
                         <CardTitle className="flex justify-start items-center ">
                             <StarOff fill="orange" className="mr-3"/>

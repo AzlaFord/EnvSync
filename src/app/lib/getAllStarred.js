@@ -13,7 +13,7 @@ export async function getRepoStared() {
     const user_id = user.id
     const { data: repos, error } = await supabase
         .from("favorite")
-        .select("owner,repo_name,language")
+        .select("id,owner,repo_name,language")
         .eq("user_id", user_id)
 
     if (error) {
