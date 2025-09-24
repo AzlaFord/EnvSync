@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
-import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye} from "lucide-react"
+import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye,GripVertical} from "lucide-react"
 import EnvSkeleton from './env-Keys-skeleton'
 
 const handleGetKeys = async (repo_full_name) =>{
@@ -192,7 +192,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                 <div key={key.id} className="flex items-end justify-between p-3 border rounded-lg">
                   <div className="flex-1">
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
-                      {visibleKeys.has(key.id) ? <Input value={`${key.key_name}= ${key.value}`} onChange={() => key.value}/> 
+                      {visibleKeys.has(key.id) ? <div className='flex w-full items-center '><Input value={`${key.key_name}`} onChange={() => key.value} className="lg:w-2xs" /> <GripVertical className='h-9 w-9 lg:h-6 lg:w-6'/> <Input value={`${key.value}`} onChange={() => key.value} /> </div> 
                       : <Input value="Key Value......." placeholder="Key Value......." onChange={() => key.value}  />}
                       <div className="flex items-top gap-2">
                         <Button
@@ -234,6 +234,5 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
           )}
         </CardContent>
       </Card>
-
     </>)
 }
