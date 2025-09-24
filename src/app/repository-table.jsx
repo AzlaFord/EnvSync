@@ -97,10 +97,10 @@ export function RepositoryTable({ }) {
                 <TableHead>Repository</TableHead>
                 <TableHead className="max-sm:hidden">Language</TableHead>
                 <TableHead className="text-center max-sm:hidden ">Stars</TableHead>
-                <TableHead className="text-center max-sm:hidden ">Forks</TableHead>
-                <TableHead className="max-sm:hidden">Status</TableHead>
-                <TableHead className="max-sm:hidden">Last Updated</TableHead>
-                <TableHead className="text-right max-sm:hidden">Actions</TableHead>
+                <TableHead className="text-center max-sm:hidden  max-lg:hidden">Forks</TableHead>
+                <TableHead className="max-sm:hidden max-md:hidden max-lg:hidden">Status</TableHead>
+                <TableHead className="max-sm:hidden max-lg:hidden">Last Updated</TableHead>
+                <TableHead className="text-right max-sm:hidden ">Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -118,7 +118,7 @@ export function RepositoryTable({ }) {
                             <p className="text-sm text-muted-foreground mt-1">{repo.node.description?repo.node.description:"There is no description"}</p>
                         </div>
                     </TableCell>
-                    <TableCell className="max-sm:hidden">
+                    <TableCell className="max-sm:hidden ">
                         <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
                     </TableCell>
                     <TableCell className="text-center max-sm:hidden">
@@ -127,16 +127,16 @@ export function RepositoryTable({ }) {
                             {repo.node.stargazerCount != null ? repo.node.stargazerCount.toLocaleString() : 0}
                         </div>
                     </TableCell>
-                    <TableCell className="text-center max-sm:hidden">
+                    <TableCell className="text-center max-sm:hidden max-lg:hidden">
                         <div className="flex items-center justify-center gap-1">
                             <GitFork className="h-4 w-4" />
                             {repo.node.forkCount != null ?repo.node.forkCount:"0" }
                         </div>
                     </TableCell>
-                    <TableCell className="max-sm:hidden">
+                    <TableCell className="max-sm:hidden max-md:hidden max-lg:hidden">
                         <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
                     </TableCell>
-                    <TableCell className="max-sm:hidden">
+                    <TableCell className="max-sm:hidden max-lg:hidden">
                         <div className="flex items-center gap-1 text-sm text-muted-foreground">
                             <Clock className="h-4 w-4" />
                             {repo.node.pushedAt ? new Date(repo.node.pushedAt).toLocaleDateString() : "N/A"}
