@@ -31,6 +31,7 @@ const searchRepo = async (query) => {
 export default function SearchPage(){
     const router = useRouter()
     const [query,setQuery] = useState("")
+    
     const {data:repos,refetch,isFetching,isLoading } = useQuery({
         queryKey:['search',query],
         queryFn:() => searchRepo(query),

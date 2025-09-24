@@ -7,7 +7,7 @@ export async function GET(){
         if(!data.success){
             return NextResponse.json({message:"ceva nu a mers bine "},{status:400})
         }
-        return NextResponse.json({message:"Totul a mers ",repos:data?.data},{status:400})
+        return NextResponse.json({message:"Totul a mers ",repos:data?.data},{status:200})
     }catch(err){
         return NextResponse.json({message:err.message},{status:500})
     }
