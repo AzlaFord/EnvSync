@@ -126,8 +126,6 @@ export function RepositoryDetails({ repositoryName,owner }) {
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
 
-  console.log(repo)
-
   const handleBackTo = (cursor) => {
     if (cursor === "Search") {
       return router.push("/search")

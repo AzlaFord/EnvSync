@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver';
 import copy from 'copy-to-clipboard';
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
+import { toast } from "sonner"
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
-import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye,GripVertical} from "lucide-react"
+import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye,GripVertical,Terminal} from "lucide-react"
 import EnvSkeleton from './env-Keys-skeleton'
 
 const handleGetKeys = async (repo_full_name) =>{
@@ -206,10 +206,20 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(`${key.key_name}=${key.value} `)}
+                          onClick={() =>{
+                            copyToClipboard(`${key.key_name}=${key.value} `),
+                            toast("Event has been created", {
+                              description: "Sunday, December 03, 2023 at 9:00 AM",
+                              action: {
+                                label: "Undo",
+                                onClick: () => console.log("Undo"),
+                              },
+                            })
+                            }}
                           className="text-muted-foreground hover:text-foreground"
                         >
-                          <Copy className="h-4 w-4" />
+                        <Copy className="h-4 w-4" />
+
                         </Button>
                         <Button
                           variant="ghost"
