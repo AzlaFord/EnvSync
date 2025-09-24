@@ -1,6 +1,6 @@
 import createClient from "@/utils/supabase/server"
 
-async function deleteOne(id) {
+export async function deleteOne(id) {
     const supabase = await createClient()
     const { data:{user}, error: userError } = await supabase.auth.getUser()
 
