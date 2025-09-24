@@ -194,7 +194,6 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
                       {visibleKeys.has(key.id) ? <Input value={`${key.key_name}= ${key.value}`} onChange={() => key.value}/> 
                       : <Input value="Key Value......." placeholder="Key Value......." onChange={() => key.value}  />}
-                      
                       <div className="flex items-top gap-2">
                         <Button
                           variant="ghost"
