@@ -1,6 +1,6 @@
 import createClient from "@/utils/supabase/server"
 
-async function getRepoStared() {
+export async function getRepoStared() {
     const supabase = await createClient()
     const {data,error} =  await supabase
         .from("favorite")
