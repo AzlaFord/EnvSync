@@ -144,13 +144,13 @@ export function RepositoryDetails({ repositoryName,owner }) {
         <CardHeader>
           <div className="flex items-start justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2 text-2xl">
-                <FolderGit2 className="h-6 w-6" />
+              <CardTitle className="flex items-center gap-2 text-2xl max-sm:text-xl">
+                <FolderGit2 className="h-6 w-6 " />
                 {repo.data?.full_name}
               </CardTitle>
               <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>
             </div>
-            <Badge variant="outline"  className="text-sm text-">
+            <Badge variant="outline"  className="text-sm  text-3 max-sm:hidden">
               {repo.data?.language}
             </Badge>
           </div>

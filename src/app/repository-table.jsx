@@ -25,7 +25,6 @@ export const getRepos = async ({ login, cursor = null, direction = "next", pageS
     return res.json()
 }
 
-
 export const getDataUser = async () =>{
   const supabase = createClient2()
   const { data, error } = await supabase.auth.getSession()
@@ -44,7 +43,7 @@ export function RepositoryTable({ }) {
     })
 
     const name = user?.session?.user?.identities[0]?.identity_data?.user_name
-    
+
     const { data: repos, isLoading: isUserLoading } = useQuery({
         queryKey: ['repos', name, cursor, direction],
         queryFn: () => getRepos({ login: name, cursor, direction }),
@@ -68,6 +67,7 @@ export function RepositoryTable({ }) {
                 return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
         }
     }
+
     const nextPage = () => {
         if (pageInfo?.endCursor) {
             router.push(`/repositories?cursor=${pageInfo.endCursor}&direction=next`);
@@ -83,75 +83,75 @@ export function RepositoryTable({ }) {
     return (
         <>
         <Card>
-        <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-            <FolderOpen className="h-5 w-5" />
-            Repositories
-            </CardTitle>
-            <CardDescription>Manage and explore your repositories</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <Table>
-            <TableHeader>
-                <TableRow>
-                <TableHead>Repository</TableHead>
-                <TableHead className="max-sm:hidden">Language</TableHead>
-                <TableHead className="text-center max-sm:hidden ">Stars</TableHead>
-                <TableHead className="text-center max-sm:hidden  max-lg:hidden">Forks</TableHead>
-                <TableHead className="max-sm:hidden max-md:hidden max-lg:hidden">Status</TableHead>
-                <TableHead className="max-sm:hidden max-lg:hidden">Last Updated</TableHead>
-                <TableHead className="text-right max-sm:hidden ">Actions</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {(Array.isArray(repos?.data?.data?.user?.repositories?.edges) ? repos?.data?.data?.user?.repositories?.edges : []).map(repo => (
-                <TableRow key={repo.node.id} className="hover:bg-muted/50">
-                    <TableCell>
-                        <div>
-                            <Button
-                            variant="link"
-                            className="p-0 h-auto font-semibold text-left" 
-                            onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}
-                            >
-                            {repo.node.name !=null ?repo.node.name:" "}
-                            </Button>
-                            <p className="text-sm text-muted-foreground mt-1">{repo.node.description?repo.node.description:"There is no description"}</p>
-                        </div>
-                    </TableCell>
-                    <TableCell className="max-sm:hidden ">
-                        <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
-                    </TableCell>
-                    <TableCell className="text-center max-sm:hidden">
-                        <div className="flex items-center justify-center gap-1">
-                            <Star className="h-4 w-4" />
-                            {repo.node.stargazerCount != null ? repo.node.stargazerCount.toLocaleString() : 0}
-                        </div>
-                    </TableCell>
-                    <TableCell className="text-center max-sm:hidden max-lg:hidden">
-                        <div className="flex items-center justify-center gap-1">
-                            <GitFork className="h-4 w-4" />
-                            {repo.node.forkCount != null ?repo.node.forkCount:"0" }
-                        </div>
-                    </TableCell>
-                    <TableCell className="max-sm:hidden max-md:hidden max-lg:hidden">
-                        <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
-                    </TableCell>
-                    <TableCell className="max-sm:hidden max-lg:hidden">
-                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <Clock className="h-4 w-4" />
-                            {repo.node.pushedAt ? new Date(repo.node.pushedAt).toLocaleDateString() : "N/A"}
-                        </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                    <Button size="sm" onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}>
-                        View Details
-                    </Button>
-                    </TableCell>
-                </TableRow>
-                ))}
-            </TableBody>
-            </Table>
-        </CardContent>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                <FolderOpen className="h-5 w-5" />
+                Repositories
+                </CardTitle>
+                <CardDescription>Manage and explore your repositories</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                    <TableHead >Repository</TableHead>
+                    <TableHead className="max-sm:hidden">Language</TableHead>
+                    <TableHead className="text-center max-sm:hidden ">Stars</TableHead>
+                    <TableHead className="text-center max-sm:hidden  max-lg:hidden">Forks</TableHead>
+                    <TableHead className="max-sm:hidden max-md:hidden max-lg:hidden">Status</TableHead>
+                    <TableHead className="max-sm:hidden max-lg:hidden">Last Updated</TableHead>
+                    <TableHead className="text-right max-sm:hidden ">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {(Array.isArray(repos?.data?.data?.user?.repositories?.edges) ? repos?.data?.data?.user?.repositories?.edges : []).map(repo => (
+                    <TableRow key={repo.node.id} className="hover:bg-muted/50">
+                        <TableCell>
+                            <div>
+                                <Button
+                                variant="link"
+                                className="p-0 h-auto font-semibold text-left" 
+                                onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}
+                                >
+                                {repo.node.name !=null ?repo.node.name:" "}
+                                </Button>
+                                <p className="text-sm text-muted-foreground mt-1">{repo.node.description?repo.node.description:"There is no description"}</p>
+                            </div>
+                        </TableCell>
+                        <TableCell className="max-sm:hidden ">
+                            <Badge variant="outline">{repo.node.primaryLanguage?.name ?? "N/A"}</Badge>
+                        </TableCell>
+                        <TableCell className="text-center max-sm:hidden">
+                            <div className="flex items-center justify-center gap-1">
+                                <Star className="h-4 w-4" />
+                                {repo.node.stargazerCount != null ? repo.node.stargazerCount.toLocaleString() : 0}
+                            </div>
+                        </TableCell>
+                        <TableCell className="text-center max-sm:hidden max-lg:hidden">
+                            <div className="flex items-center justify-center gap-1">
+                                <GitFork className="h-4 w-4" />
+                                {repo.node.forkCount != null ?repo.node.forkCount:"0" }
+                            </div>
+                        </TableCell>
+                        <TableCell className="max-sm:hidden max-md:hidden max-lg:hidden">
+                            <Badge className={getStatusColor(repo.node.isArchived)}>{repo.node.isArchived ? "Archived" : "Active"}</Badge>
+                        </TableCell>
+                        <TableCell className="max-sm:hidden max-lg:hidden">
+                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <Clock className="h-4 w-4" />
+                                {repo.node.pushedAt ? new Date(repo.node.pushedAt).toLocaleDateString() : "N/A"}
+                            </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                        <Button size="sm" onClick={() => router.push(`/repositories/${repo.node.name}?owner=${repo.node.owner.login}&cursor=${cursor}`)}>
+                            View Details
+                        </Button>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </CardContent>
         </Card>
         <div className="flex justify-end w-full">
             <Button variant="secondary" disabled={!pageInfo?.hasPreviousPage} onClick={prevPage}  className="ml-2 w-20">Prev</Button>

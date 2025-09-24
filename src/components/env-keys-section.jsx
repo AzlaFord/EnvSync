@@ -163,7 +163,6 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                             setNewKey({ key: "", value: "" });
                           }
                           }}>{!loadingAddKey?"Add Key" :"Adding key"}</Button>
-
                     </div>
                   </div>
                 </DialogContent>
@@ -187,17 +186,10 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
               {keys?.data?.map((key) => (
                 <div key={key.id} className="flex items-end justify-between p-3 border rounded-lg">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <code className="ml-2 font-mono text-sm font-semibold text-shadow-lg ">Key:{key.key_name}</code>
-                    </div>
-                    <Separator className='my-2'/>
                     <code className="inline-flex bg-muted relative rounded  py-1 font-mono text-sm font-semibold w-[99%]  ">
-                      {visibleKeys.has(key.id) ? <div className="  ml-1 relative rounded pl-1 py-1 font-mono text-sm font-semibold border-2 border-dashed w-8/9 overflow-hidden bg-gray-500/16">
-                      <p className="w-full min-w-20 truncate"> 
-                        {key.value}
-                      </p> 
-                      </div>
-                      : <div className="ml-1 bg-gray-500/16 relative rounded  py-1 font-mono text-muted-foreground text-sm font-semibold border-2 border-dashed overflow-hidden w-8/9 pl-1">  Key Value</div>}
+                      {visibleKeys.has(key.id) ? <Input value={`${key.key_name}= ${key.value}`} onChange={() => key.value}/> 
+                      : <Input value="Key Value......." placeholder="Key Value......." onChange={() => key.value}  />}
+                      
                       <div className="flex items-top gap-2">
                         <Button
                           variant="ghost"
@@ -221,7 +213,7 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                           onClick={() => hadleDeleteKey(key.id)}
                           className="text-destructive hover:text-destructive"
                         >
-                          <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </code>
