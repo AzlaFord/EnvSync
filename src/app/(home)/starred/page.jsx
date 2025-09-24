@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { Separator } from "@/components/ui/separator"
-import {FolderSearch,ArrowRight , StarOff} from "lucide-react"
+import {FolderSearch,ArrowRight , StarOff,Star} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle,CardAction, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -42,9 +42,15 @@ export default function StarredPage(){
     }
     return (<>
     <div className="w-full pl-5">
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-            Starred repositories
-        </h2>
+        <div className="flex w-full">
+            <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 flex items-center w-full">
+                <Star fill="orange" className="mr-2  max-sm:hidden"/>  Starred repositories
+            </h2>
+            <Button variant="outline">
+                Remove all <Star fill="orange" className="max-sm:hidden" />
+            </Button>
+        </div>
+        <Separator></Separator>
     </div>
     <div className="w-full flex justify-center items-center p-5">
         <div className="w-full flex justify-center items-center ">
@@ -53,7 +59,6 @@ export default function StarredPage(){
                 <Card key={repo?.id} className=" flex justify-center " >
                     <CardHeader>
                         <CardTitle className="flex justify-start items-center ">
-                            <StarOff fill="orange" className=" mr-1 max-sm:hidden" onClick={()=>{removeStarred(repo?.id)}} />
                                 <Button variant="link" className="p-0 h-auto font-semibold" 
                                 onClick = {() =>{router.push(`/repositories/${repo?.repo_name}?owner=${repo?.owner}&cursor=Starred`)}}
                                 >
@@ -61,6 +66,7 @@ export default function StarredPage(){
                                         {repo?.owner}/{repo?.repo_name}
                                     </h4>
                                 </Button>
+                            <StarOff fill="orange" className="ml-2 mr-1 max-sm:hidden" onClick={()=>{removeStarred(repo?.id)}} />
                         </CardTitle>
                         <CardAction>
                             <Button onClick={()=>{router.push(`/repositories/${repo?.repo_name}?owner=${repo?.owner}&cursor=Starred`)}}>

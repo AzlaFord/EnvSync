@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import {FolderSearch,ArrowRight} from "lucide-react"
+import {FolderSearch,ArrowRight,Search} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle,CardAction, CardDescription } from "@/components/ui/card"
 import debounce from "lodash.debounce"
@@ -54,7 +54,11 @@ export default function SearchPage(){
             </div>
         </div>
         <Separator className='w-full sm:w-1/2 md:w-1/3 ml-1 mr-1'/>
-        {query.length === 0 && <h1 className="flex justify-center scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">Start searching ...</h1>}
+        {query.length === 0 && 
+        <div className="flex justify-center items-center h-full">
+            <Search className="h-10 w-10 max-sm:hidden" />
+            <h1 className="flex ml-2 justify-center scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance items-center"> Start searching ...   </h1>
+        </div>   }
         {isLoading && <LoadingSearch/>}
         <div className="ml-1  w-full flex justify-center ">
             <ul className="ml-1  w-full  md:w-1/2 rounded-2xl grid grid-cols-1 gap-2">
