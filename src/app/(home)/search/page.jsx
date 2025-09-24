@@ -37,7 +37,7 @@ export default function SearchPage(){
         queryFn:() => searchRepo(query),
         enabled: false 
     })
-    console.log(repos?.data?.data )
+    
     useEffect(() => {
         const handler = debounce(() => {
             if (query) refetch()

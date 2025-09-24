@@ -130,7 +130,9 @@ export function RepositoryDetails({ repositoryName,owner }) {
     if (cursor === "Search") {
       return router.push("/search")
     }
-
+    if(cursor === "Starred"){
+      return router.push("/starred")
+    }
     if (!cursor || cursor === "null") {
       return router.push("/repositories")
     }

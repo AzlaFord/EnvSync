@@ -83,23 +83,23 @@ const data2 = {
     //   ],
     // },
   ],
-  projects: [
-    {
-      name: "Frontend Projects",
-      url: "#",
-      icon: Folder,
-    },
-    {
-      name: "Backend APIs",
-      url: "#",
-      icon: Folder,
-    },
-    {
-      name: "Mobile Apps",
-      url: "#",
-      icon: Folder,
-    },
-  ],
+  // projects: [
+  //   {
+  //     name: "Frontend Projects",
+  //     url: "#",
+  //     icon: Folder,
+  //   },
+  //   {
+  //     name: "Backend APIs",
+  //     url: "#",
+  //     icon: Folder,
+  //   },
+  //   {
+  //     name: "Mobile Apps",
+  //     url: "#",
+  //     icon: Folder,
+  //   },
+  // ],
 }
 
 export function AppSidebar({
@@ -117,7 +117,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data2.navMain} />
-        <NavProjects projects={data2.projects} />
+        {/* <NavProjects projects={data2.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser userData={data} />
