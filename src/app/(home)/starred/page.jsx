@@ -65,6 +65,14 @@ export default function StarredPage(){
         </div>
         <Separator></Separator>
     </div>
+    {repos?.repos?.length === 0 && 
+        <div className="w-full h-full flex justify-center items-center ">
+            <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance flex justify-center items-center  ">
+                Nothing there to see?
+            </h1>
+        </div>
+    }
+
     <div className="w-full flex justify-center items-center p-5">
         <div className="w-full flex justify-center items-center ">
             <div className="grid grid-cols-1  max-md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 w-full  gap-3">
