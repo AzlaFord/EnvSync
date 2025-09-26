@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import LoadingStarred from "@/components/ui/loading_Starred"
+import Link from "next/link"
 
 const getStarred = async () =>{
     try{
@@ -70,17 +71,19 @@ export default function StarredPage(){
 
     {repos?.repos?.length === 0 && 
         <div className="w-full h-full flex justify-center items-center ">
-            <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance flex justify-center items-center  ">
-                Nothing there to see?
-            </h1>
+            <div>
+                <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance flex justify-center items-center  ">
+                    Nothing there to see?  
+                </h1>
+                <Link href="/repositories" className=" text-[#284B63]  text-center text-4xl font-extrabold tracking-tight text-balance flex justify-center items-center ml-2 underline hover:decoration-[#3C6E71]">Repositories</Link>
+            </div>
         </div>
     }
     <div className="w-full flex justify-center items-center p-5">
         <div className="w-full flex justify-center items-center ">
             <div className="grid grid-cols-1  max-md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-2 w-full  gap-3">
-            {isLoading && 
-                <LoadingStarred/>
-            }
+            {isLoading && <LoadingStarred/>}
+
                 {(repos?.repos||[]).map(repo=>(
                 <Card key={repo?.id} className=" flex justify-center " >
                     <CardHeader>
