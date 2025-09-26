@@ -158,8 +158,6 @@ export function RepositoryDetails({ repositoryName,owner }) {
     }catch(err){
       console.log(err)
       return { exists: false };
-    }finally{
-      setRefetch2(prev => !prev)
     }
   }
   if (!repo ) return <LoadingDetails/>
@@ -176,10 +174,21 @@ export function RepositoryDetails({ repositoryName,owner }) {
           Remove
           <Star className="mr-1" fill="orange" />
         </Button>:  
-        <Button variant='outline' onClick={()=>{addToFavorites(repo.data?.id,repo.data?.name,repo.data?.language,repo?.data?.owner?.login)}}>
-          Save
-          <Star className="mr-1"  />
-        </Button>
+          <Button
+            variant='outline'
+            onClick={() => {
+              addToFavorites(
+                repo.data?.id,
+                repo.data?.name,
+                repo.data?.language,
+                repo?.data?.owner?.login
+              )
+              setRefetch2(prev => !prev);
+            }}
+          >
+            Save
+            <Star className="mr-1" />
+          </Button>
       }
       </div>
       <Card>
