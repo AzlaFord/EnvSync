@@ -140,7 +140,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
     queryFn:() => hadStarred(repo.data?.id),
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
-  console.log(exista)
+
   const handleBackTo = (cursor) => {
     if (cursor === "Search") {
       return router.push("/search")
@@ -178,12 +178,13 @@ export function RepositoryDetails({ repositoryName,owner }) {
           Back to Repositories
         </Button>
         {exista?.exista?.exists === true?
-        <Button variant='outline' onClick={()=>{removeStarred(exista?.exista?.found[0]?.id); setRefetch2(prev => !prev);}} >
+        <Button variant='outline'  onClick={()=>{removeStarred(exista?.exista?.found[0]?.id); setRefetch2(prev => !prev);}} >
           Remove
-          <Star className="mr-1" fill="orange"  />
+          <Star className="mr-1"  fill="orange"  />
         </Button>:  
           <Button
-            variant='outline'
+            
+            variant='outline' 
             onClick={() => {
               addToFavorites(
                 repo.data?.id,
