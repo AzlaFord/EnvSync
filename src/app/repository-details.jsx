@@ -88,6 +88,21 @@ const hasAccess = async (repositoryName,owner) =>{
 
     return data
 }
+const hadStarred = async (repo_id)=>{
+  try{
+    const res = await fetch("/api/existsInStarred",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({repo_id})
+    })
+    const data = await res.json()
+    return data
+  }catch(err){
+    console.log(err)
+    return { exists: false };
+  }
+}
+
 
 export function RepositoryDetails({ repositoryName,owner }) {
   const { data: user, error: userError } = useQuery({
@@ -125,6 +140,12 @@ export function RepositoryDetails({ repositoryName,owner }) {
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
 
+  const {data:exista} = useQuery({
+    queryKey :["exista"],
+    queryFn:() => hadStarred(repo.data?.id),
+    enabled: !!owner && !!repositoryName && access?.message === true,
+  })
+  console.log("exista",exista)
   const handleBackTo = (cursor) => {
     if (cursor === "Search") {
       return router.push("/search")
@@ -148,10 +169,16 @@ export function RepositoryDetails({ repositoryName,owner }) {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
+        {exista?.exista === true?
+        <Button variant='outline' >
+          Remove
+          <Star className="mr-1" fill="orange" />
+        </Button>:  
         <Button variant='outline' onClick={()=>{addToFavorites(repo.data?.id,repo.data?.name,repo.data?.language,repo?.data?.owner?.login)}}>
           Save
           <Star className="mr-1"  />
         </Button>
+      }
       </div>
       <Card>
         <CardHeader>
