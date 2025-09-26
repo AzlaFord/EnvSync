@@ -65,7 +65,7 @@ export const getCommitCount = async (repo,userName) =>{
   return data
 }
 
-export const addToFavorites = async (repo_id,repo_name,language,owner) =>{
+const addToFavorites = async (repo_id,repo_name,language,owner) =>{
   try{
     await fetch("/api/addFavorite",{
       method:"POST",
@@ -88,20 +88,6 @@ const hasAccess = async (repositoryName,owner) =>{
 
     return data
 }
-const hadStarred = async (repo_id)=>{
-  try{
-    const res = await fetch("/api/existsInStarred",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({repo_id})
-    })
-    const data = await res.json()
-    return data
-  }catch(err){
-    console.log(err)
-    return { exists: false };
-  }
-}
 
 
 export function RepositoryDetails({ repositoryName,owner }) {
@@ -109,12 +95,12 @@ export function RepositoryDetails({ repositoryName,owner }) {
     queryKey: ['user'],
     queryFn: getDataUser,
   })
-
+  const [refetch2,setRefetch2] = useState(false)
   const userId = user?.session?.user?.identities[0]?.identity_data?.provider_id
   const searchParams = useSearchParams();
   const cursor = searchParams.get("cursor")
   const router = useRouter()
-
+  
   const { data: access } = useQuery({
     queryKey: ["use", repositoryName, owner],
     queryFn: () => hasAccess(repositoryName, owner),
@@ -125,7 +111,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
       router.push(`/repositories`);
     }    
   },[access, router, cursor])
-
+  
   const {data:dataRepo }= useQuery({
     queryKey:['colabs',owner],
     queryFn:()=> getCommitCount(repositoryName,owner),
@@ -133,19 +119,19 @@ export function RepositoryDetails({ repositoryName,owner }) {
   })
   
   const commitsCount = dataRepo?.data?.repository?.defaultBranchRef?.target?.history?.totalCount
-
+  
   const { data: repo } = useQuery({
     queryKey: ['repos', owner,repositoryName],
     queryFn: () => getRepoData(owner,repositoryName),
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
-
+  
   const {data:exista} = useQuery({
-    queryKey :["exista"],
+    queryKey :["exista",refetch2],
     queryFn:() => hadStarred(repo.data?.id),
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
-  console.log("exista",exista)
+
   const handleBackTo = (cursor) => {
     if (cursor === "Search") {
       return router.push("/search")
@@ -156,10 +142,26 @@ export function RepositoryDetails({ repositoryName,owner }) {
     if (!cursor || cursor === "null") {
       return router.push("/repositories")
     }
-
+    
     return router.push(`/repositories?cursor=${cursor}`)
   }
-
+  
+  const hadStarred = async (repo_id)=>{
+    try{
+      const res = await fetch("/api/existsInStarred",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({repo_id})
+      })
+      const data = await res.json()
+      return data
+    }catch(err){
+      console.log(err)
+      return { exists: false };
+    }finally{
+      setRefetch2(prev => !prev)
+    }
+  }
   if (!repo ) return <LoadingDetails/>
   
   return (
