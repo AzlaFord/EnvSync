@@ -26,7 +26,7 @@ export default function StarredPage(){
         queryKey:["repos2",fetchAgain],
         queryFn: () => getStarred(),
     })
-
+    
     const removeStarred = async (id) =>{
         try{
             await fetch("/api/deleteFromFavoriteOne",{
@@ -40,13 +40,26 @@ export default function StarredPage(){
             setFetchAgain(prev => !prev)
         }    
     }
+
+    const removeAllStarred = async ()=>{
+        try{
+            await fetch('/api/removeAllFavorite',{
+                method:"DELETE",
+            })
+        }catch(err){
+            throw err
+        }finally{
+           setFetchAgain(prev => !prev) 
+        }
+    }
+
     return (<>
     <div className="w-full pl-5">
         <div className="flex w-full">
             <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 flex items-center w-full">
                 <Star fill="orange" className="mr-2  max-sm:hidden"/>  Starred repositories
             </h2>
-            <Button variant="outline">
+            <Button variant="outline" onClick={()=>{removeAllStarred()}}>
                 Remove all <Star fill="orange" className="max-sm:hidden" />
             </Button>
         </div>

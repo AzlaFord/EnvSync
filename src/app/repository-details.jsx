@@ -98,7 +98,6 @@ export function RepositoryDetails({ repositoryName,owner }) {
   const userId = user?.session?.user?.identities[0]?.identity_data?.provider_id
   const searchParams = useSearchParams();
   const cursor = searchParams.get("cursor")
-  const [isOpenColab,setIsOpenColab] = useState(true)
   const router = useRouter()
 
   const { data: access } = useQuery({
@@ -258,7 +257,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button variant="outline" onClick={()=>{setIsOpenColab(prev => !prev),setIsOpenIssues(false)}} >
+            <Button variant="outline" >
               <Users className="h-4 w-4 mr-2" />
               Contributors ({dataRepo?.data?.repository?.collaborators?.edges?.length||"1"})
             </Button>
@@ -270,7 +269,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
             </Button>
           </div>
           <Separator className="mt-2"></Separator>
-          {isOpenColab &&(<DataColab colabs={dataRepo?.data?.repository?.collaborators?.edges}/>  )}
+          <DataColab colabs={dataRepo?.data?.repository?.collaborators?.edges}/>  
         </CardContent>
       </Card>
     </div>

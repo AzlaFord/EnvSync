@@ -7,7 +7,7 @@ export async function deleteAllFavorite(){
         console.error("user error:", userError);
         throw userError || new Error("No user found")
     }
-    const {error} = supabase.from("favorite").delete().eq("user_id",user.id)
+    const {error} = await supabase.from("favorite").delete().eq("user_id",user.id)
     if(error){
         console.error("error:", error);
         throw error || new Error("No user found")
