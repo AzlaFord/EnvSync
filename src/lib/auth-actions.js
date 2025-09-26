@@ -48,7 +48,7 @@ export async function signInWithGitHub() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider:'github',
     options: {
-      redirectTo: 'https://env-sync.vercel.app/auth/callback',
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
     },
   })
 
