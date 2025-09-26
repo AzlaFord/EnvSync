@@ -76,7 +76,17 @@ const addToFavorites = async (repo_id,repo_name,language,owner) =>{
     throw err
   }
 }
-
+const removeStarred = async (id) =>{
+    try{
+        await fetch("/api/deleteFromFavoriteOne",{
+            method:"DELETE",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({repoId:id})
+        })
+    }catch(err){
+        throw err
+    }   
+}
 const hasAccess = async (repositoryName,owner) =>{
     const res = await fetch("/api/access",{
       method:"POST",
@@ -88,7 +98,6 @@ const hasAccess = async (repositoryName,owner) =>{
 
     return data
 }
-
 
 export function RepositoryDetails({ repositoryName,owner }) {
   const { data: user, error: userError } = useQuery({
@@ -131,7 +140,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
     queryFn:() => hadStarred(repo.data?.id),
     enabled: !!owner && !!repositoryName && access?.message === true,
   })
-
+  console.log(exista)
   const handleBackTo = (cursor) => {
     if (cursor === "Search") {
       return router.push("/search")
@@ -142,7 +151,6 @@ export function RepositoryDetails({ repositoryName,owner }) {
     if (!cursor || cursor === "null") {
       return router.push("/repositories")
     }
-    
     return router.push(`/repositories?cursor=${cursor}`)
   }
   
@@ -169,10 +177,10 @@ export function RepositoryDetails({ repositoryName,owner }) {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Repositories
         </Button>
-        {exista?.exista === true?
-        <Button variant='outline' >
+        {exista?.exista?.exists === true?
+        <Button variant='outline' onClick={()=>{removeStarred(exista?.exista?.found[0]?.id); setRefetch2(prev => !prev);}} >
           Remove
-          <Star className="mr-1" fill="orange" />
+          <Star className="mr-1" fill="orange"  />
         </Button>:  
           <Button
             variant='outline'
@@ -182,7 +190,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
                 repo.data?.name,
                 repo.data?.language,
                 repo?.data?.owner?.login
-              )
+              );
               setRefetch2(prev => !prev);
             }}
           >

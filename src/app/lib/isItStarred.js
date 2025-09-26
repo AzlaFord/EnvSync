@@ -11,7 +11,7 @@ export async function getInfoOnStarred(repo_id) {
     }
     const user_id = user.id
 
-    const {data:found,error} = await supabase.from("favorite").select("owner").eq("repo_id",repo_id).eq("user_id",user_id).limit(1)
+    const {data:found,error} = await supabase.from("favorite").select("id").eq("repo_id",repo_id).eq("user_id",user_id).limit(1)
 
     if(error){
         console.log(error)
@@ -19,9 +19,9 @@ export async function getInfoOnStarred(repo_id) {
     }
 
     if (found.length > 0) {
-        return { exists: true, message: "Randul exista" }
+        return { exists: true, message: "Randul exista",found }
     } else {
-        return { exists: false, message: "Randul nu exista" }
+        return { exists: false, message: "Randul nu exista",found }
     }
 
 }
