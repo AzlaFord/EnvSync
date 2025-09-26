@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { useState } from "react"
 import { RepositoryTable } from "@/app/repository-table"
-
+import { useState, Suspense } from "react"
+import LoadingPage from "@/app/Loading"
 export default function RepositoriesPage() {
   const [selectedRepo, setSelectedRepo] = useState(null)
   const [value, setValue] = useState("")
@@ -12,10 +12,12 @@ export default function RepositoriesPage() {
   }
 
   return (
-    <RepositoryTable
-      onRepositoryClick={setSelectedRepo}
-      value={value}
-      sendToParent={setValue}
-    />
+    <Suspense fallback={<LoadingPage/>}>
+      <RepositoryTable
+        onRepositoryClick={setSelectedRepo}
+        value={value}
+        sendToParent={setValue}
+      />
+    </Suspense>
   )
 }

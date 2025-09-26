@@ -1,6 +1,7 @@
-import { supabase } from "@/app/lib/suprabase";
+import createClient from "@/utils/supabase/server"
 
 export async function POST(request){
+    const supabase = await createClient()
     const {user ,session,error} = await supabase.auth.signInWithOAuth({
         provider:'github'
     })

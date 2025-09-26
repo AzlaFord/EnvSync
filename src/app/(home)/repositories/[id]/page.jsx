@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { RepositoryDetails } from "@/app/repository-details"
 import React from "react"
