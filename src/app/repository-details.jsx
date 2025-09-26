@@ -164,7 +164,7 @@ export function RepositoryDetails({ repositoryName,owner }) {
               <CardDescription className="mt-2 text-base">{repo.description? repo.description:"There is no description"}</CardDescription>
             </div>
             <Badge variant="outline"  className="text-sm  text-3 max-sm:hidden">
-              {repo.data?.language}
+              {repo.data?.language || "N/A"}
             </Badge>
           </div>
         </CardHeader>
