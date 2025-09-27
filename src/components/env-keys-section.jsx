@@ -5,6 +5,17 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -106,7 +117,6 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
               <Clipboard color='black'/>
               <span className='ml-1 leading-7 [&:not(:first-child)] text-black'>The key is copied succesfuly!</span>
             </div>
-            
           )
         })
       }
@@ -224,14 +234,31 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                         <Copy className="h-4 w-4" />
 
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => hadleDeleteKey(key.id)}
-                          className="text-destructive hover:text-destructive"
-                        >
-                        <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-destructive hover:text-destructive"
+                            >
+                            <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the key 
+                                from the database
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => hadleDeleteKey(key.id)} >Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+
                       </div>
                     </code>
                   </div>
