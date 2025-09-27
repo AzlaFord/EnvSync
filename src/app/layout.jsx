@@ -1,7 +1,7 @@
 'use client'
 import './styles/globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
+import { Toaster } from '@/components/ui/sonner'
 import { useState } from 'react'
 
 export default function RootLayout({ children }) {
@@ -11,6 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className='scrollbar-hide'>
       <body>
         <QueryClientProvider client={queryClient}>
+          <Toaster />
           {children}
         </QueryClientProvider>
       </body>

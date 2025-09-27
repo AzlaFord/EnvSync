@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
-import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye,GripVertical,Terminal} from "lucide-react"
+import { Key,Plus,Copy,Trash2,Download,EyeOff ,Eye,GripVertical,Clipboard} from "lucide-react"
 import EnvSkeleton from './env-Keys-skeleton'
 
 const handleGetKeys = async (repo_full_name) =>{
@@ -100,8 +100,17 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
       
       const copyToClipboard = async (value) => {
         copy(value);
+        toast("Saved!",{
+          description:(
+            <div className='flex  '>
+              <Clipboard color='black'/>
+              <span className='ml-1 leading-7 [&:not(:first-child)] text-black'>The key is copied succesfuly!</span>
+            </div>
+            
+          )
+        })
       }
-      
+
       const downloadEnvFile = () => {
         setEnvKeys(keys?.data)
         const envContent = envKeys.map((key) => `${key.key_name}=${key.value}`).join("\n")
@@ -207,14 +216,8 @@ export default function KeysSection({repositoryName,repositoryId,userId}){
                           variant="ghost"
                           size="sm"
                           onClick={() =>{
-                            copyToClipboard(`${key.key_name}=${key.value} `),
-                            toast("Event has been created", {
-                              description: "Sunday, December 03, 2023 at 9:00 AM",
-                              action: {
-                                label: "Undo",
-                                onClick: () => console.log("Undo"),
-                              },
-                            })
+                            copyToClipboard(`${key.key_name}=${key.value} `);
+
                             }}
                           className="text-muted-foreground hover:text-foreground"
                         >
