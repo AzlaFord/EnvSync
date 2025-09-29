@@ -5,7 +5,6 @@ import * as React from "react"
 import {
   Frame,
   Map,
-  Settings2,
   Activity,
   Folder,
   MessageCircle
