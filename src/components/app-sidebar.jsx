@@ -8,6 +8,7 @@ import {
   Settings2,
   Activity,
   Folder,
+  MessageCircle
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -59,8 +60,9 @@ const data2 = {
       ],
     },
     {
-      title: "Chat",
+      title: "Actions",
       url: "#",
+      icon:MessageCircle,
       isActive: true,
       items: [
         {
@@ -84,17 +86,17 @@ const data2 = {
     {
       name: "Frontend Projects",
       url: "/chat",
-      icon: Folder,
+      icon: MessageCircle,
     },
     {
       name: "Backend APIs",
       url: "#",
-      icon: Folder,
+      icon: MessageCircle,
     },
     {
       name: "Mobile Apps",
       url: "#",
-      icon: Folder,
+      icon: MessageCircle,
     },
   ],
 }

@@ -6,6 +6,8 @@ import {
   MoreHorizontal,
   Trash2,
   LucideIcon,
+  User2,
+  EyeIcon
 } from "lucide-react"
 
 import {
@@ -53,8 +55,13 @@ export function NavProjects({projects}) {
                 align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
+                  <User2 className="text-muted-foreground" />
+                  <span>AddUser</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <EyeIcon className="text-muted-foreground" />
+                  <span>View </span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
