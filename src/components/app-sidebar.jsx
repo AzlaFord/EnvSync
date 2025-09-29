@@ -37,7 +37,7 @@ const data2 = {
   navMain: [
     {
       title: "Repositories",
-      url: "#",
+      url: "/",
       icon: Folder,
       isActive: true,
       items: [
@@ -58,48 +58,45 @@ const data2 = {
         }
       ],
     },
-    // {
-    //   title: "Analytics",
-    //   url: "#",
-    //   icon: BarChart3,
-    //   items: [
-    //     {
-    //       title: "Overview",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Traffic",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Contributors",
-    //       url: "#",
-    //       action: "contributors",
-    //     },
-    //     {
-    //       title: "Insights",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
+    {
+      title: "Chat",
+      url: "#",
+      isActive: true,
+      items: [
+        {
+          title: "AddUser",
+          url: "/addUser",
+        },
+        {
+          title: "CreateGroup",
+          url: "/CreateGroup",
+        },
+        {
+          title: "Friends",
+          url: "/friends",
+          action: "contributors",
+        },
+      ],
+    },
   ],
-  // projects: [
-  //   {
-  //     name: "Frontend Projects",
-  //     url: "#",
-  //     icon: Folder,
-  //   },
-  //   {
-  //     name: "Backend APIs",
-  //     url: "#",
-  //     icon: Folder,
-  //   },
-  //   {
-  //     name: "Mobile Apps",
-  //     url: "#",
-  //     icon: Folder,
-  //   },
-  // ],
+
+  projects: [
+    {
+      name: "Frontend Projects",
+      url: "/chat",
+      icon: Folder,
+    },
+    {
+      name: "Backend APIs",
+      url: "#",
+      icon: Folder,
+    },
+    {
+      name: "Mobile Apps",
+      url: "#",
+      icon: Folder,
+    },
+  ],
 }
 
 export function AppSidebar({
@@ -117,7 +114,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data2.navMain} />
-        {/* <NavProjects projects={data2.projects} /> */}
+        <NavProjects projects={data2.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser userData={data} />
